@@ -109,7 +109,7 @@ export default async function ArticlePage({ params }: Props) {
           __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }),
         }}
       />
-      <ArticleView article={article} related={related} />
+      <ArticleView article={article} related={related} url={url} />
     </>
   )
 }

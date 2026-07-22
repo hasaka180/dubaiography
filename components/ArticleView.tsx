@@ -2,6 +2,7 @@ import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import FaqAccordion from './FaqAccordion'
+import ShareBar from './ShareBar'
 import { ArticleCard } from './ArticleGrid'
 import { CATEGORY_META, formatDate, type Article, type Block } from '@/lib/content'
 import s from './ArticleView.module.css'
@@ -65,9 +66,11 @@ function BlockView({ block, isLede }: { block: Block; isLede: boolean }) {
 export default function ArticleView({
   article,
   related,
+  url,
 }: {
   article: Article
   related: Article[]
+  url: string
 }) {
   const firstTextIdx = article.blocks.findIndex((b) => b.type === 'text')
 
@@ -94,6 +97,8 @@ export default function ArticleView({
           )}
           {article.readingTime && <span className="eyebrow">{article.readingTime} min read</span>}
         </div>
+
+        <ShareBar url={url} title={article.title} />
       </div>
 
       {article.cover && (

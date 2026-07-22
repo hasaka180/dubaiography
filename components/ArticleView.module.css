@@ -10,18 +10,17 @@
 /* ── masthead ── */
 
 .head {
-  padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(2rem, 4vw, 3rem);
-  max-width: 24ch;
-}
-
-.head.wide {
-  max-width: 20ch;
+  padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .title {
   font-size: clamp(2.5rem, 7.5vw, 6rem);
-  line-height: 0.9;
+  line-height: 0.94;
   margin: 0.85rem 0 0;
+  /* Measured on the title's own font-size — a ch cap on the parent resolves
+     against the small body size and crushes the headline to one word a line. */
+  max-width: 16ch;
+  text-wrap: balance;
 }
 
 .standfirst {

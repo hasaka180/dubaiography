@@ -30,13 +30,14 @@
   will-change: transform;
 }
 
-.plate img {
+.plate video {
   width: 100%;
   height: 100%;
   /* Focal point sits on the Burj, so the crop keeps the spire
      centred as the frame narrows on phones. */
   object-fit: cover;
   object-position: 50% 62%;
+  display: block;
 }
 
 /* ── overlay: sun bloom ──────────────────────────────────── */
@@ -194,20 +195,18 @@
 
 .masthead {
   margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
   padding-top: clamp(3rem, 12vw, 8rem);
 }
 
+/* One word, set to span the full measure of the frame. */
 .word {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 12.5vw, 11rem);
+  font-size: clamp(2.75rem, 14.2vw, 13rem);
   line-height: 0.8;
   letter-spacing: -0.02em;
   color: #fdf1d2;
   white-space: nowrap;
+  margin: 0;
   text-shadow: 0 2px 40px rgba(9, 20, 38, 0.55);
 }
 
@@ -246,9 +245,8 @@
 @media (max-width: 760px) {
   .credits { gap: 1.75rem; }
   .standfirst { text-align: left; max-width: 100%; line-height: 1.9; }
-  .masthead { flex-direction: column; align-items: flex-start; gap: 0.1em; }
   /* Narrow frames crop hard — hold the skyline, drop the foreground. */
-  .plate img { object-position: 52% 52%; }
+  .plate video { object-position: 52% 52%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

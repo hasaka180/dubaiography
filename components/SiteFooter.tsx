@@ -16,11 +16,7 @@ export default function SiteFooter() {
       <div className="shell">
         <div className={s.top}>
           <div className={s.brand}>
-            <p className={s.mark}>
-              Dubai
-              <br />
-              ography
-            </p>
+            <p className={s.mark}>Dubaiography</p>
             <p className={s.blurb}>
               An independent editorial journal covering the architecture, culture, business and
               landscape of Dubai and the wider Emirates.

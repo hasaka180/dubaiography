@@ -1,21 +1,18 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import gsap from 'gsap'
-import skyline from '@/public/hero/skyline.jpg'
 import s from './HeroArt.module.css'
 
 /* ============================================================
-   The illustration is one flattened plate, so depth comes from
-   moving the whole plane — a slow push-in, scroll drift and a
-   lean toward the pointer — rather than from per-layer parallax.
-   As with the coded hero, the entrance is transform-only: the
-   art paints complete even if GSAP never runs.
+   The hero is a looping skyline film. Depth comes from moving
+   the whole plane — a slow push-in, scroll drift and a lean
+   toward the pointer. The video carries a still poster so the
+   frame paints instantly and stays complete if the clip or
+   GSAP never load.
    ============================================================ */
 
-const MASTHEAD_LEFT = 'DUBAI'
-const MASTHEAD_RIGHT = 'OGRAPHY'
+const MASTHEAD = 'DUBAIOGRAPHY'
 
 export default function HeroArt() {
   const root = useRef<HTMLElement>(null)
@@ -23,7 +20,12 @@ export default function HeroArt() {
   useEffect(() => {
     const el = root.current
     if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Hold the poster frame rather than looping motion at people who asked
+      // the OS to stop it.
+      el.querySelector('video')?.pause()
+      return
+    }
 
     const ctx = gsap.context(() => {
       const plate = el.querySelector<HTMLElement>(`.${s.plate}`)
@@ -98,16 +100,18 @@ export default function HeroArt() {
   return (
     <header className={s.hero} ref={root}>
       <div className={s.plate}>
-        <Image
-          src={skyline}
-          alt=""
-          fill
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          placeholder="blur"
-          quality={82}
-        />
+        <video
+          className={s.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/hero/skyline.jpg"
+          aria-hidden="true"
+        >
+          <source src="/hero/dubai-skyline-hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* coded overlays — a few nodes, so they animate for free */}
@@ -149,17 +153,12 @@ export default function HeroArt() {
         <div className={s.masthead}>
           <h1 className={s.word}>
             <span style={{ position: 'absolute', left: -9999 }}>Dubaiography</span>
-            {[...MASTHEAD_LEFT].map((c, i) => (
+            {[...MASTHEAD].map((c, i) => (
               <span key={i} aria-hidden="true">
                 {c}
               </span>
             ))}
           </h1>
-          <div className={s.word} aria-hidden="true">
-            {[...MASTHEAD_RIGHT].map((c, i) => (
-              <span key={i}>{c}</span>
-            ))}
-          </div>
         </div>
 
         <div className={s.scrollCue}>

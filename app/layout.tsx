@@ -61,9 +61,11 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
-  verification: process.env.GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  verification: {
+    google:
+      process.env.GOOGLE_SITE_VERIFICATION ||
+      'fe-CtnPbnwrgXYytwqyyY0rYVoIowtnTEbiBp-Q89aA',
+  },
 }
 
 /* Publisher identity — lets Google tie every article back to one masthead. */
