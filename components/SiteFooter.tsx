@@ -1,8 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { CATEGORIES, CATEGORY_META } from '@/lib/content'
 import s from './SiteFooter.module.css'
 
 export default function SiteFooter() {
+  const pathname = usePathname()
+
+  // The studio is a tool, not part of the publication — no chrome.
+  if (pathname?.startsWith('/studio')) return null
+
   return (
     <footer className={s.footer}>
       <div className="shell">

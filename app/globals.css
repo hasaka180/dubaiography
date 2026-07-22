@@ -9,6 +9,8 @@
    ============================================================ */
 
 :root {
+  color-scheme: light;
+
   /* surfaces */
   --paper: #f2efe8;
   --paper-deep: #e8e3d8;
@@ -16,6 +18,14 @@
   --ink-soft: #55504a;
   --ink-faint: #8d867d;
   --rule: #cdc6b8;
+
+  /* Inverted band (footer, statement). Named separately from --ink/--paper
+     so it stays a deliberate dark slab in both themes instead of flipping
+     to a bright one when the page itself goes dark. */
+  --invert-bg: #14110f;
+  --invert-fg: #f2efe8;
+  --invert-rule: #33302c;
+  --invert-soft: #8d867d;
 
   /* accents — pulled from the hero's flat-illustration palette */
   --terracotta: #c8552b;
@@ -35,6 +45,39 @@
   --measure: 68ch;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── dark theme ───────────────────────────────────────────────
+   Applied by the no-flash script in app/layout.tsx, which stamps
+   data-theme on <html> before first paint. Not a straight
+   inversion: the paper warms to a dark ink-brown rather than
+   going neutral grey, and the accent lifts a couple of steps so
+   it still carries contrast against a dark ground.
+   ───────────────────────────────────────────────────────────── */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: #12100e;
+  --paper-deep: #1c1917;
+  --ink: #ede7dc;
+  --ink-soft: #a79f93;
+  --ink-faint: #7c756b;
+  --rule: #322d28;
+
+  --invert-bg: #0a0908;
+  --invert-fg: #ede7dc;
+  --invert-rule: #2a2622;
+  --invert-soft: #7c756b;
+
+  --accent: #e0703f;
+}
+
+/* Colour changes are eased so the toggle reads as a dissolve rather
+   than a flash — but only on the surfaces, never on layout. */
+body,
+.rule {
+  transition: background-color 0.45s var(--ease), color 0.45s var(--ease),
+    border-color 0.45s var(--ease);
 }
 
 *,

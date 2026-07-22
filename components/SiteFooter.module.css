@@ -1,7 +1,7 @@
 .footer {
   margin-top: clamp(5rem, 12vw, 10rem);
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--invert-bg);
+  color: var(--invert-fg);
   padding: clamp(3.5rem, 8vw, 7rem) 0 2.5rem;
 }
 
@@ -22,7 +22,7 @@
 
 .blurb {
   max-width: 34ch;
-  color: #b9b2a6;
+  color: var(--invert-soft);
   font-size: 0.9375rem;
   margin: 0;
 }
@@ -33,7 +33,7 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #8d867d;
+  color: var(--invert-soft);
   margin: 0 0 1.25rem;
 }
 
@@ -55,11 +55,11 @@
   gap: 1rem 2rem;
   justify-content: space-between;
   padding-top: 2rem;
-  border-top: 1px solid #33302c;
+  border-top: 1px solid var(--invert-rule);
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #8d867d;
+  color: var(--invert-soft);
 }
 
 @media (max-width: 860px) {

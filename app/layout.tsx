@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Instrument_Serif, Inter } from 'next/font/google'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import Dateline from '@/components/Dateline'
 import SmoothScroll from '@/components/SmoothScroll'
 import Reveal from '@/components/Reveal'
 import './globals.css'
@@ -75,9 +76,19 @@ const publisherSchema = {
   areaServed: { '@type': 'Place', name: 'Dubai, United Arab Emirates' },
 }
 
+/* Runs before first paint so the page never flashes the wrong palette.
+   An explicit choice in localStorage wins; otherwise the OS decides, and
+   keeps deciding until the reader picks a side. */
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');
+if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}})()`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <script
           type="application/ld+json"
@@ -88,6 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SmoothScroll />
         <Reveal />
+        <Dateline />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

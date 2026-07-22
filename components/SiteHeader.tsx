@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import ThemeToggle from './ThemeToggle'
 import { CATEGORIES, CATEGORY_META } from '@/lib/content'
 import s from './SiteHeader.module.css'
 
@@ -41,14 +42,17 @@ export default function SiteHeader() {
           </Link>
         </nav>
 
-        <button
-          className={s.toggle}
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Toggle navigation"
-        >
-          {open ? 'Close' : 'Menu'}
-        </button>
+        <div className={s.actions}>
+          <ThemeToggle />
+          <button
+            className={s.toggle}
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Toggle navigation"
+          >
+            {open ? 'Close' : 'Menu'}
+          </button>
+        </div>
       </div>
     </header>
   )

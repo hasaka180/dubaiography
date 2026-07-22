@@ -1,0 +1,91 @@
+/* The masthead dateline — a newspaper convention: where and when this
+   edition is being read. Sits above the sticky bar and scrolls away. */
+
+.dateline {
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 2.5rem);
+  height: 34px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.place {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink-soft);
+}
+
+/* a small live dot, echoing the accent used on the article cards */
+.pin {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+  animation: pulse 3.2s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
+
+.coords {
+  margin-right: auto;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 2vw, 1.5rem);
+}
+
+.time {
+  /* tabular figures stop the row shifting as the seconds tick */
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  min-width: 7ch;
+}
+
+.zone {
+  color: var(--ink-faint);
+}
+
+@media (max-width: 900px) {
+  .coords {
+    display: none;
+  }
+  .place {
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .date {
+    display: none;
+  }
+  .place {
+    /* drop the country on small screens, keep the city */
+    max-width: 12ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin {
+    animation: none;
+  }
+}

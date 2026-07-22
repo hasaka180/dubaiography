@@ -90,8 +90,8 @@
 
 .statement {
   margin-top: clamp(4rem, 9vw, 8rem);
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--invert-bg);
+  color: var(--invert-fg);
   padding: clamp(4rem, 10vw, 9rem) 0;
 }
 
@@ -115,6 +115,6 @@
   gap: 1rem 3rem;
   margin-top: clamp(2.5rem, 6vw, 4.5rem);
   padding-top: 1.75rem;
-  border-top: 1px solid #33302c;
-  color: #8d867d;
+  border-top: 1px solid var(--invert-rule);
+  color: var(--invert-soft);
 }
