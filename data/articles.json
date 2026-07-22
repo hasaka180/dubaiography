@@ -1,0 +1,281 @@
+{
+  "articles": [
+    {
+      "slug": "how-dubai-builds-so-fast",
+      "title": "How Dubai Builds So Fast",
+      "standfirst": "A tower every few weeks, a district every few years. The speed is not an accident — it is a procurement model, a labour market and a planning code working in unison.",
+      "category": "architecture",
+      "author": "Editorial Desk",
+      "date": "2026-07-14",
+      "readingTime": 9,
+      "featured": true,
+      "size": "lg",
+      "published": true,
+      "tags": [
+        "urbanism",
+        "construction",
+        "planning",
+        "skyline"
+      ],
+      "metaTitle": "How Dubai Builds So Fast — Inside the City's Construction Model",
+      "metaDescription": "Why Dubai's construction timelines outpace almost every other city: design-and-build procurement, parallel approvals, modular methods and a labour market built for it.",
+      "blocks": [
+        {
+          "id": "b1",
+          "type": "text",
+          "body": "Stand on any overpass on Sheikh Zayed Road for long enough and you will watch the skyline edit itself. A crane arrives, a core rises, cladding closes the frame, and a building that did not exist at the start of a lease is handing over keys before it ends. The pace is the city's most quoted statistic and its least explained one."
+        },
+        {
+          "id": "b2",
+          "type": "heading",
+          "eyebrow": "The mechanism",
+          "heading": "Approvals run in parallel, not in sequence"
+        },
+        {
+          "id": "b3",
+          "type": "text",
+          "body": "In most cities, a project moves through consent, then detailed design, then tender, then construction — each stage waiting on the last. Dubai's authorities allow substantial overlap. Enabling works and piling can begin under an early works permit while the superstructure package is still being priced.\n\nThe effect compounds. Shaving three months off each of four stages does not save three months; it saves closer to a year, because the critical path never idles."
+        },
+        {
+          "id": "b4",
+          "type": "quote",
+          "body": "The buildings are not built faster. The waiting is shorter.",
+          "attribution": "A Dubai-based project manager, on condition of anonymity"
+        },
+        {
+          "id": "b5",
+          "type": "heading",
+          "eyebrow": "The trade-off",
+          "heading": "What speed costs"
+        },
+        {
+          "id": "b6",
+          "type": "text",
+          "body": "Compressed programmes push risk downstream. Design changes land after procurement, variation orders multiply, and the contractor absorbs coordination that a slower process would have resolved on paper. The visible result is a city of remarkable towers with a less remarkable record on snagging and long-term maintenance.\n\nThe more interesting question is not whether the model is fast — it plainly is — but which parts of it are exportable, and which depend on conditions particular to the Gulf."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "How long does it take to build a tower in Dubai?",
+          "a": "A typical 40–50 storey residential tower runs roughly 30 to 36 months from enabling works to handover — around a third faster than comparable projects in Europe, largely because approvals and procurement overlap with construction."
+        },
+        {
+          "q": "Why is construction in Dubai faster than in other cities?",
+          "a": "Three factors: parallel rather than sequential approvals, design-and-build contracts that hand coordination to a single party, and a labour and materials supply chain sized for continuous large-scale output."
+        }
+      ]
+    },
+    {
+      "slug": "al-fahidi-neighbourhood-guide",
+      "title": "Al Fahidi, Slowly",
+      "standfirst": "The oldest surviving quarter in the city rewards the one thing Dubai rarely asks of you: walking without a destination.",
+      "category": "culture",
+      "author": "Editorial Desk",
+      "date": "2026-07-08",
+      "readingTime": 7,
+      "size": "md",
+      "published": true,
+      "tags": [
+        "neighbourhoods",
+        "heritage",
+        "walking",
+        "Bur Dubai"
+      ],
+      "metaDescription": "A walking guide to Al Fahidi historical neighbourhood in Bur Dubai — wind towers, coral-stone lanes, galleries, coffee and the best hours to go.",
+      "blocks": [
+        {
+          "id": "c1",
+          "type": "text",
+          "body": "Al Fahidi is barely a kilometre across, which is part of the point. The lanes are deliberately narrow and deliberately crooked — a passive cooling strategy from a century before air conditioning, funnelling breeze and casting shade at every turn."
+        },
+        {
+          "id": "c2",
+          "type": "heading",
+          "eyebrow": "Orientation",
+          "heading": "Start at the creek, not the car park"
+        },
+        {
+          "id": "c3",
+          "type": "text",
+          "body": "Arriving by abra from Deira costs a single dirham and sets the register correctly: the creek made this city, and Al Fahidi is what the merchants built with what the creek brought in.\n\nWalk inland and the noise drops within thirty metres. Coral-stone walls, gypsum lattice, wind towers standing over courtyards that still work exactly as designed."
+        },
+        {
+          "id": "c4",
+          "type": "text",
+          "body": "Go early — before nine, ideally, and between November and March. In summer the quarter is beautiful and essentially unwalkable after breakfast."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "What is the best time to visit Al Fahidi?",
+          "a": "Early morning between November and March. The lanes are shaded and cool before 9am, and most galleries and courtyard cafés open around 9 or 10."
+        },
+        {
+          "q": "Is Al Fahidi free to enter?",
+          "a": "Yes — the neighbourhood itself is a public quarter you can walk freely. Individual museums and some galleries inside it charge a small entry fee."
+        }
+      ]
+    },
+    {
+      "slug": "free-zone-or-mainland",
+      "title": "Free Zone or Mainland?",
+      "standfirst": "The first structural decision any company makes in Dubai, explained without the brochure language.",
+      "category": "business",
+      "author": "Editorial Desk",
+      "date": "2026-06-29",
+      "readingTime": 8,
+      "size": "md",
+      "published": true,
+      "tags": [
+        "company setup",
+        "free zone",
+        "licensing",
+        "corporate tax"
+      ],
+      "metaTitle": "Free Zone vs Mainland in Dubai — Which Structure Actually Fits",
+      "metaDescription": "A plain-language comparison of free zone and mainland company structures in Dubai: ownership, where you can trade, visa quotas, cost and corporate tax treatment.",
+      "blocks": [
+        {
+          "id": "d1",
+          "type": "text",
+          "body": "Almost every consultancy in the city will answer this question for you in under a minute, which is a good reason to be suspicious of the answer. The right structure depends on who your customers are — and very little else."
+        },
+        {
+          "id": "d2",
+          "type": "heading",
+          "eyebrow": "The distinction",
+          "heading": "It comes down to who you can invoice"
+        },
+        {
+          "id": "d3",
+          "type": "text",
+          "body": "A free zone licence lets you trade internationally and within your zone with minimal friction. Selling directly into the UAE domestic market is where the constraints appear, and where a mainland licence — or a distributor arrangement — starts to matter.\n\nOwnership is no longer the deciding factor it once was. Mainland ownership rules were liberalised across most activities, so the old shorthand of *free zone equals full ownership* is now a weak reason to choose one."
+        },
+        {
+          "id": "d4",
+          "type": "text",
+          "body": "Cost differences are real but smaller than they look on a first quote. Compare total first-year outlay — licence, establishment card, visa quota, mandatory office or flexi-desk, and the corporate tax registration that now applies either way."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Can a free zone company trade in mainland Dubai?",
+          "a": "Not directly in most cases. A free zone company typically needs a mainland distributor, a branch, or a dual licence arrangement to sell goods and services into the domestic UAE market."
+        },
+        {
+          "q": "Do free zone companies pay corporate tax in the UAE?",
+          "a": "Free zone companies are within the corporate tax regime and must register, but qualifying free zone income can attract a 0% rate where the conditions on activity and substance are met. Non-qualifying income is taxed at the standard rate."
+        }
+      ]
+    },
+    {
+      "slug": "desert-in-a-day",
+      "title": "The Desert, In a Day",
+      "standfirst": "Forty minutes from the last interchange the road runs out and the country changes entirely. How to see it without joining a convoy.",
+      "category": "travel",
+      "author": "Editorial Desk",
+      "date": "2026-06-18",
+      "readingTime": 6,
+      "size": "md",
+      "published": true,
+      "tags": [
+        "desert",
+        "day trip",
+        "conservation reserve",
+        "driving"
+      ],
+      "metaDescription": "How to spend a day in the desert outside Dubai — the conservation reserve, timing, what to bring and how to avoid the tour-bus circuit.",
+      "blocks": [
+        {
+          "id": "e1",
+          "type": "text",
+          "body": "The standard desert experience is sold as a package: coach, dune bashing, camp, buffet, back by ten. It is efficient and almost entirely sealed off from the landscape it is named after."
+        },
+        {
+          "id": "e2",
+          "type": "text",
+          "body": "The alternative costs less and asks more. Drive out in the late afternoon, stay on the graded tracks unless you are properly equipped and not alone, and be somewhere with a clear western horizon an hour before sunset. The light does the rest.\n\nThe conservation reserve southeast of the city is the reliable choice: oryx and gazelle move at dusk, and access is regulated enough that you are not sharing a ridge with forty vehicles."
+        },
+        {
+          "id": "e3",
+          "type": "quote",
+          "body": "The dunes are not the attraction. The silence is.",
+          "attribution": "Field notes, Dubai Desert Conservation Reserve"
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Do you need a 4x4 to visit the desert near Dubai?",
+          "a": "Not for the graded access roads and reserve entrances, which are fine in a normal car. You need a proper 4x4, deflated tyres, recovery gear and ideally a second vehicle before leaving established tracks for soft sand."
+        }
+      ]
+    },
+    {
+      "slug": "reading-the-skyline",
+      "title": "Reading the Skyline",
+      "standfirst": "Six silhouettes that explain four decades of ambition — and what each one was actually trying to prove.",
+      "category": "architecture",
+      "author": "Editorial Desk",
+      "date": "2026-06-02",
+      "readingTime": 10,
+      "size": "sm",
+      "published": true,
+      "tags": [
+        "skyline",
+        "towers",
+        "design",
+        "landmarks"
+      ],
+      "metaDescription": "A field guide to Dubai's landmark buildings — what each silhouette was designed to prove, and how to read the skyline chronologically.",
+      "blocks": [
+        {
+          "id": "f1",
+          "type": "text",
+          "body": "Skylines are usually read as a competition. Dubai's is better read as a sequence of arguments, each building answering the one before it."
+        },
+        {
+          "id": "f2",
+          "type": "text",
+          "body": "The sail on the shoreline argued that a hotel could be a national logo. The tapering spire inland argued that the record itself was the product. The torus by the highway argued that the next landmark would be about surface, not height — a building whose entire exterior is a text.\n\nRead them in order and the city's priorities are legible: first recognition, then scale, then meaning."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "where-to-see-art-in-dubai",
+      "title": "Where to See Art in Dubai",
+      "standfirst": "Beyond the fair week — the warehouses, foundations and permanent collections that keep working the other fifty-one weeks of the year.",
+      "category": "culture",
+      "author": "Editorial Desk",
+      "date": "2026-05-21",
+      "readingTime": 7,
+      "size": "sm",
+      "published": true,
+      "tags": [
+        "art",
+        "galleries",
+        "Alserkal",
+        "museums"
+      ],
+      "metaDescription": "A guide to Dubai's year-round art scene: gallery districts, independent foundations, permanent collections and the best days to visit.",
+      "blocks": [
+        {
+          "id": "g1",
+          "type": "text",
+          "body": "Dubai's art calendar has a gravitational centre in March, and the rest of the year is quietly more interesting. The commercial galleries clustered in the industrial quarter run full exhibition programmes; the foundations do the research work that fairs draw on."
+        },
+        {
+          "id": "g2",
+          "type": "text",
+          "body": "Saturday afternoons are the reliable window — most spaces open, few crowds, and enough galleries within walking distance of each other that you can see eight shows without moving your car."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Are galleries in Dubai free to visit?",
+          "a": "Commercial galleries are free and open to the public without appointment. Museums and some foundation exhibitions charge modest entry fees."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+/* ============================================================
+   Hero — a layered flat illustration of the city.
+   Composition follows the editorial-spread convention: credits
+   top-left, standfirst top-right, and the masthead split across
+   the base of the artwork.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: clamp(560px, 92svh, 1000px);
+  overflow: hidden;
+  background: var(--night);
+  color: #f6efe2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── the artwork ─────────────────────────────────────────── */
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.art {
+  width: 100%;
+  height: 100%;
+  /* Scene is drawn 1600×900; crop from the bottom so the dunes and
+     masthead stay locked together on tall/narrow viewports. */
+  object-fit: cover;
+}
+
+/* Each parallax layer is transformed by GSAP; will-change keeps the
+   compositor from re-rasterising the vectors every frame. */
+.layer {
+  will-change: transform;
+}
+
+/* ── foreground editorial layer ──────────────────────────── */
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 6vw, 6rem);
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.byline {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 2.1;
+  color: #f6efe2;
+  opacity: 0.82;
+}
+
+.byline em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.95;
+}
+
+/* The standfirst mirrors the reference spread: ranged right, all
+   caps, with the key phrases picked out in sand. */
+.standfirst {
+  max-width: 46ch;
+  margin: 0;
+  text-align: right;
+  font-size: clamp(0.7rem, 1.05vw, 0.84rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 2;
+  text-transform: uppercase;
+  color: #f6efe2;
+}
+
+.standfirst mark {
+  background: none;
+  color: var(--sand);
+}
+
+/* ── masthead ────────────────────────────────────────────── */
+
+.masthead {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-top: clamp(3rem, 12vw, 8rem);
+}
+
+.word {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 12.5vw, 11rem);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: #f8e9bf;
+  white-space: nowrap;
+}
+
+.word span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.scrollCue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.scrollCue i {
+  display: block;
+  width: 46px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  animation: sweep 2.6s var(--ease) infinite;
+}
+
+@keyframes sweep {
+  0% { transform: scaleX(0); opacity: 0; }
+  40% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; transform-origin: right; }
+}
+
+@media (max-width: 760px) {
+  .credits {
+    gap: 1.75rem;
+  }
+  .standfirst {
+    text-align: left;
+    max-width: 100%;
+    line-height: 1.9;
+  }
+  .masthead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollCue i {
+    animation: none;
+  }
+}
