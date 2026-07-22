@@ -201,6 +201,12 @@
   .gallery {
     grid-template-columns: 1fr !important;
   }
+  /* Tighter body type on phones — a smaller measure reads better with a
+     correspondingly shorter line-height. */
+  .body {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 }
 
 /* ── tags + related ── */
