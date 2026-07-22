@@ -67,6 +67,11 @@ async function readAll(): Promise<Article[]> {
 /* Seed from data/articles.json the first time the store is empty, so a fresh
    Appwrite project comes up with the demo issue already in place. */
 let seedPromise: Promise<void> | null = null
+
+/** Why the last seed attempt failed, if it did. Surfaced by ping() — a silent
+    seed failure used to present as an inexplicably empty site. */
+let lastSeedError: string | null = null
+
 async function ensureSeeded(): Promise<void> {
   if (!tables) return
   if (!seedPromise) {
@@ -76,7 +81,10 @@ async function ensureSeeded(): Promise<void> {
         for (const a of (await readFileStore()).articles) {
           await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: a.slug, data: toRow(a) })
         }
-      } catch {
+        lastSeedError = null
+      } catch (e) {
+        lastSeedError = e instanceof Error ? e.message : String(e)
+        console.error('Appwrite seed failed:', lastSeedError)
         seedPromise = null // allow retry next request
       }
     })()
@@ -92,6 +100,13 @@ export async function getArticles(
 ): Promise<Article[]> {
   await ensureSeeded()
   let all = await readAll()
+
+  /* Appwrite answered, but with nothing — and seeding it failed. Without this
+     the listings go blank while individual articles still resolve from the
+     bundled file, which reads as a broken site rather than a misconfigured
+     one. Fall back to the same file the rest of the app falls back to. */
+  if (!all.length && lastSeedError) all = (await readFileStore()).articles
+
   if (!opts.includeDrafts) all = all.filter((a) => a.published !== false)
   if (opts.category) all = all.filter((a) => a.category === opts.category)
   return all.sort(byDateDesc)
@@ -155,16 +170,32 @@ export async function deleteArticle(slug: string): Promise<boolean> {
 
 /** Lightweight liveness read — used by the keep-alive cron so Appwrite's
     free tier doesn't auto-pause the project for inactivity. */
-export async function ping(): Promise<{ ok: boolean; total?: number; error?: string }> {
-  if (!tables) return { ok: true, total: (await readFileStore()).articles.length }
+export async function ping(): Promise<{
+  ok: boolean
+  total?: number
+  storage?: 'appwrite' | 'file'
+  seedError?: string
+  error?: string
+}> {
+  if (!tables) {
+    return { ok: true, storage: 'file', total: (await readFileStore()).articles.length }
+  }
   try {
     const res = await tables.listRows({
       databaseId: AW.db!,
       tableId: AW.col!,
       queries: [Query.limit(1)],
     })
-    return { ok: true, total: res.total }
+    // An empty table is only healthy if seeding actually succeeded; report the
+    // seed failure alongside it so "ok, 0 rows" can't be mistaken for fine.
+    if (!res.total) await ensureSeeded()
+    return {
+      ok: true,
+      storage: 'appwrite',
+      total: res.total,
+      ...(lastSeedError ? { seedError: lastSeedError } : {}),
+    }
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : String(e) }
+    return { ok: false, storage: 'appwrite', error: e instanceof Error ? e.message : String(e) }
   }
 }
