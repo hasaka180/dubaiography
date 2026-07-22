@@ -1,0 +1,256 @@
+/* ============================================================
+   Hero — illustrated skyline plate.
+
+   The artwork is a single flattened image (3,895 paths, no
+   groups), so it can't be parallaxed layer-by-layer. Instead the
+   whole plate drifts as one plane and the *life* comes from
+   lightweight coded elements composited on top: a breathing sun
+   bloom, a slow light sweep, water shimmer and drifting birds.
+   Those are a handful of nodes, so they animate for free.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: clamp(560px, 92svh, 1000px);
+  overflow: hidden;
+  background: #10233f;
+  color: #f6efe2;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+/* ── the plate ───────────────────────────────────────────── */
+
+.plate {
+  position: absolute;
+  inset: -4%; /* bleed, so parallax never exposes an edge */
+  z-index: 0;
+  will-change: transform;
+}
+
+.plate img {
+  width: 100%;
+  height: 100%;
+  /* Focal point sits on the Burj, so the crop keeps the spire
+     centred as the frame narrows on phones. */
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+/* ── overlay: sun bloom ──────────────────────────────────── */
+
+.bloom {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 145, 0.5) 0%,
+    rgba(244, 148, 74, 0.24) 42%,
+    rgba(244, 148, 74, 0) 70%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: breathe 9s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+  50% { transform: translate(-50%, -50%) scale(1.09); opacity: 1; }
+}
+
+/* ── overlay: light sweep across the sky band ────────────── */
+
+.sweep {
+  position: absolute;
+  inset: 0 0 45% 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 226, 179, 0.14) 50%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  animation: sweep 14s linear infinite;
+}
+
+@keyframes sweep {
+  from { background-position: 160% 0; }
+  to { background-position: -60% 0; }
+}
+
+/* ── overlay: water shimmer ──────────────────────────────── */
+
+.shimmer {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 34%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 6px,
+    rgba(255, 255, 255, 0.045) 6px 7px
+  );
+  mask-image: linear-gradient(to bottom, transparent, #000 45%, #000);
+  animation: shimmer 7s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(3px); }
+}
+
+/* ── overlay: birds ──────────────────────────────────────── */
+
+.birds {
+  position: absolute;
+  left: 12%;
+  top: 22%;
+  width: 120px;
+  pointer-events: none;
+  opacity: 0.55;
+  will-change: transform;
+}
+
+/* ── scrims: keep the masthead legible over busy artwork ─── */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(9, 20, 38, 0.55) 0%, transparent 28%),
+    linear-gradient(to top, rgba(9, 20, 38, 0.82) 0%, rgba(9, 20, 38, 0.15) 34%, transparent 55%);
+}
+
+/* ── foreground editorial layer ──────────────────────────── */
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 6vw, 6rem);
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.byline {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 2.1;
+  opacity: 0.85;
+  text-shadow: 0 1px 12px rgba(9, 20, 38, 0.8);
+}
+
+.byline em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.standfirst {
+  max-width: 46ch;
+  margin: 0;
+  text-align: right;
+  font-size: clamp(0.7rem, 1.05vw, 0.84rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 2;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(9, 20, 38, 0.85);
+}
+
+.standfirst mark {
+  background: none;
+  color: #ffca7a;
+}
+
+/* ── masthead ────────────────────────────────────────────── */
+
+.masthead {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-top: clamp(3rem, 12vw, 8rem);
+}
+
+.word {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 12.5vw, 11rem);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: #fdf1d2;
+  white-space: nowrap;
+  text-shadow: 0 2px 40px rgba(9, 20, 38, 0.55);
+}
+
+.word span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.scrollCue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.scrollCue i {
+  display: block;
+  width: 46px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  animation: cue 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes cue {
+  0% { transform: scaleX(0); opacity: 0; }
+  40% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; transform-origin: right; }
+}
+
+@media (max-width: 760px) {
+  .credits { gap: 1.75rem; }
+  .standfirst { text-align: left; max-width: 100%; line-height: 1.9; }
+  .masthead { flex-direction: column; align-items: flex-start; gap: 0.1em; }
+  /* Narrow frames crop hard — hold the skyline, drop the foreground. */
+  .plate img { object-position: 52% 52%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bloom, .sweep, .shimmer, .scrollCue i { animation: none; }
+}

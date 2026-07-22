@@ -46,7 +46,12 @@ export default function Dateline() {
       <div className={`shell ${s.inner}`}>
         <span className={s.place}>
           <i className={s.pin} aria-hidden="true" />
-          Dubai, United Arab Emirates
+          {/* The country abbreviates rather than truncates on narrow screens —
+              clipping the full name mid-word read as a broken string. */}
+          Dubai, <span className={s.country}>United Arab Emirates</span>
+          <abbr className={s.countryShort} title="United Arab Emirates">
+            UAE
+          </abbr>
         </span>
 
         <span className={s.coords} aria-hidden="true">

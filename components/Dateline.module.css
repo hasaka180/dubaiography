@@ -41,6 +41,12 @@
   50% { opacity: 0.45; transform: scale(0.8); }
 }
 
+.countryShort {
+  display: none;
+  text-decoration: none;
+  letter-spacing: inherit;
+}
+
 .coords {
   margin-right: auto;
 }
@@ -76,12 +82,9 @@
   .date {
     display: none;
   }
-  .place {
-    /* drop the country on small screens, keep the city */
-    max-width: 12ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  /* drop the country on small screens, keep the city */
+  .country { display: none; }
+  .countryShort { display: inline; }
 }
 
 @media (prefers-reduced-motion: reduce) {

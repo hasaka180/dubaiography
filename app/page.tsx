@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import HeroScene from '@/components/HeroScene'
+import HeroScene from '@/components/HeroArt'
 import ArticleGrid, { LeadArticle } from '@/components/ArticleGrid'
 import { getArticles, CATEGORIES, CATEGORY_META } from '@/lib/articles'
 import s from './home.module.css'
