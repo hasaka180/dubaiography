@@ -6,7 +6,7 @@ import s from './ShareBar.module.css'
 /* Editorial share row. Social targets are plain links (no tracking script,
    nothing to consent to); the copy-link control is the only stateful bit. */
 
-type Props = { url: string; title: string }
+type Props = { url: string; title: string; variant?: 'inline' | 'stacked' }
 
 const ICONS = {
   x: 'M18.9 2h3.3l-7.2 8.3L23.7 22h-6.6l-5.2-6.8L5.9 22H2.6l7.7-8.8L2 2h6.8l4.7 6.2zm-1.2 18h1.8L7.4 3.8H5.5z',
@@ -26,7 +26,7 @@ function Icon({ path }: { path: string }) {
   )
 }
 
-export default function ShareBar({ url, title }: Props) {
+export default function ShareBar({ url, title, variant = 'inline' }: Props) {
   const [copied, setCopied] = useState(false)
   const u = encodeURIComponent(url)
   const t = encodeURIComponent(title)
@@ -49,7 +49,7 @@ export default function ShareBar({ url, title }: Props) {
   }
 
   return (
-    <div className={s.share}>
+    <div className={`${s.share} ${variant === 'stacked' ? s.stacked : ''}`}>
       <span className={s.label}>Share</span>
       <div className={s.links}>
         {targets.map((tg) => (

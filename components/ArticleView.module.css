@@ -30,7 +30,7 @@
   line-height: 1.28;
   letter-spacing: -0.01em;
   color: var(--ink-soft);
-  max-width: 40ch;
+  max-width: 52ch;
   margin: 1.5rem 0 0;
 }
 
@@ -66,15 +66,113 @@
   max-width: 52ch;
 }
 
+/* ── reading layout: main column + sticky rail ── */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  align-items: start;
+}
+
+.main {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.rail {
+  grid-column: 2;
+}
+
+.railInner {
+  position: sticky;
+  top: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.toc {
+  border-top: 1px solid var(--ink);
+  padding-top: 1rem;
+}
+
+.tocHead {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 1rem;
+}
+
+.toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: toc;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.toc li {
+  counter-increment: toc;
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.toc li::before {
+  content: counter(toc, decimal-leading-zero);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.6875rem;
+  padding-top: 0.15rem;
+}
+
+.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.toc a:hover {
+  color: var(--ink);
+}
+
+/* Share sits under the byline only on narrow screens; the rail carries it
+   on desktop. */
+.shareInline {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    display: block;
+  }
+  .rail {
+    display: none;
+  }
+  .shareInline {
+    display: block;
+  }
+}
+
 /* ── body ── */
 
 /* The column stays ranged left, on the same margin as the headline and
-   byline above it — centring it here collides with the byline row. */
+   byline above it — centring it here collides with the byline row.
+   Measure widened past the default so the text reaches further across the
+   page rather than sitting in a narrow strip with dead space on the right;
+   a slightly larger size keeps the line count from ballooning. */
 .body {
-  max-width: var(--measure);
+  max-width: 84ch;
   margin: clamp(2.5rem, 6vw, 4rem) 0 0;
-  font-size: 1.125rem;
-  line-height: 1.72;
+  font-size: 1.1875rem;
+  line-height: 1.7;
 }
 
 .block {
@@ -131,6 +229,8 @@
 
 .heading {
   margin: clamp(3rem, 6vw, 4.5rem) 0 1.25rem;
+  /* Clear the sticky header when jumped to from the table of contents. */
+  scroll-margin-top: 6rem;
 }
 
 .heading h2 {

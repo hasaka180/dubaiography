@@ -7,7 +7,10 @@ import { ArticleCard } from './ArticleGrid'
 import { CATEGORY_META, formatDate, type Article, type Block } from '@/lib/content'
 import s from './ArticleView.module.css'
 
-function BlockView({ block, isLede }: { block: Block; isLede: boolean }) {
+/** Anchor id for a heading block — the table of contents links to these. */
+const sectionId = (i: number) => `sec-${i}`
+
+function BlockView({ block, index, isLede }: { block: Block; index: number; isLede: boolean }) {
   switch (block.type) {
     case 'text':
       return (
@@ -18,7 +21,11 @@ function BlockView({ block, isLede }: { block: Block; isLede: boolean }) {
 
     case 'heading':
       return (
-        <div className={s.heading} data-reveal>
+        <div
+          className={s.heading}
+          id={block.heading ? sectionId(index) : undefined}
+          data-reveal
+        >
           {block.eyebrow && <span className="eyebrow">{block.eyebrow}</span>}
           {block.heading && <h2>{block.heading}</h2>}
         </div>
@@ -74,6 +81,11 @@ export default function ArticleView({
 }) {
   const firstTextIdx = article.blocks.findIndex((b) => b.type === 'text')
 
+  // Section headings, for the sticky "In this guide" table of contents.
+  const toc = article.blocks
+    .map((b, i) => (b.type === 'heading' && b.heading ? { id: sectionId(i), label: b.heading } : null))
+    .filter((x): x is { id: string; label: string } => x !== null)
+
   return (
     <article className={s.article}>
       <div className="shell">
@@ -98,7 +110,10 @@ export default function ArticleView({
           {article.readingTime && <span className="eyebrow">{article.readingTime} min read</span>}
         </div>
 
-        <ShareBar url={url} title={article.title} />
+        {/* Mobile share — the desktop copy lives in the sticky rail. */}
+        <div className={s.shareInline}>
+          <ShareBar url={url} title={article.title} />
+        </div>
       </div>
 
       {article.cover && (
@@ -110,23 +125,47 @@ export default function ArticleView({
       )}
 
       <div className="shell">
-        <div className={s.body}>
-          {article.blocks.map((b, i) => (
-            <BlockView key={b.id ?? i} block={b} isLede={i === firstTextIdx} />
-          ))}
-        </div>
+        <div className={s.layout}>
+          <div className={s.main}>
+            <div className={s.body}>
+              {article.blocks.map((b, i) => (
+                <BlockView key={b.id ?? i} block={b} index={i} isLede={i === firstTextIdx} />
+              ))}
+            </div>
 
-        {!!article.tags?.length && (
-          <div className={s.tags}>
-            {article.tags.map((t) => (
-              <span key={t} className={s.tag}>
-                {t}
-              </span>
-            ))}
+            {!!article.tags?.length && (
+              <div className={s.tags}>
+                {article.tags.map((t) => (
+                  <span key={t} className={s.tag}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {!!article.faqs?.length && <FaqAccordion faqs={article.faqs} />}
           </div>
-        )}
 
-        {!!article.faqs?.length && <FaqAccordion faqs={article.faqs} />}
+          {/* Sticky rail — fills the space beside the reading column. Hidden
+              on narrow screens, where share moves under the byline. */}
+          <aside className={s.rail}>
+            <div className={s.railInner}>
+              {toc.length > 0 && (
+                <nav className={s.toc} aria-label="In this guide">
+                  <span className={s.tocHead}>In this guide</span>
+                  <ol>
+                    {toc.map((t) => (
+                      <li key={t.id}>
+                        <a href={`#${t.id}`}>{t.label}</a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              )}
+              <ShareBar url={url} title={article.title} variant="stacked" />
+            </div>
+          </aside>
+        </div>
 
         {!!related.length && (
           <section className={s.related} aria-labelledby="related-head">
