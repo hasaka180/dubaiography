@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Instrument_Serif, Inter } from 'next/font/google'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -22,6 +23,11 @@ const sans = Inter({
 })
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dubaiography.com'
+
+/* Google Analytics 4. Loaded only in production so local development and
+   builds don't pollute the property's stats. */
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-5NN1P1DYV3'
+const GA_ENABLED = process.env.NODE_ENV === 'production' && !!GA_ID
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -105,6 +111,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+
+        {/* afterInteractive: analytics must never block first paint. GA4's
+            enhanced measurement picks up client-side route changes via
+            History events, so no manual page_view wiring is needed. */}
+        {GA_ENABLED && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   )
