@@ -73,3 +73,11 @@
 .prose p {
   color: var(--ink-soft);
 }
+
+/* Match the article body's smaller reading size on phones. */
+@media (max-width: 640px) {
+  .prose {
+    font-size: 0.8em;
+    line-height: 1.62;
+  }
+}

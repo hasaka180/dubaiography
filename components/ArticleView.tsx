@@ -1,21 +1,64 @@
+import type { ReactNode } from 'react'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import FaqAccordion from './FaqAccordion'
 import ShareBar from './ShareBar'
 import { ArticleCard } from './ArticleGrid'
-import { CATEGORY_META, formatDate, type Article, type Block } from '@/lib/content'
+import { CATEGORY_META, formatDate, slugify, type Article, type Block } from '@/lib/content'
 import s from './ArticleView.module.css'
 
-/** Anchor id for a heading block — the table of contents links to these. */
+/** Anchor id for a dedicated heading block — the table of contents links here. */
 const sectionId = (i: number) => `sec-${i}`
+
+/** Flatten a rendered node back to its plain text, so a markdown heading and
+    its table-of-contents entry derive the same slug. */
+function toText(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(toText).join('')
+  if (node && typeof node === 'object' && 'props' in node) {
+    return toText((node as { props: { children?: ReactNode } }).props.children)
+  }
+  return ''
+}
+
+/* Give markdown headings ids so they can be linked from the table of contents.
+   slugify() strips markdown punctuation, so this matches the ToC slug built
+   from the raw source. */
+const mdComponents: Components = {
+  h2: ({ children }) => <h2 id={slugify(toText(children))}>{children}</h2>,
+  h3: ({ children }) => <h3 id={slugify(toText(children))}>{children}</h3>,
+}
+
+type TocItem = { id: string; label: string; level: number }
+
+/** Build the table of contents from both dedicated heading blocks and
+    markdown ## / ### headings inside text blocks. */
+function buildToc(blocks: Block[]): TocItem[] {
+  const items: TocItem[] = []
+  blocks.forEach((b, i) => {
+    if (b.type === 'heading' && b.heading) {
+      items.push({ id: sectionId(i), label: b.heading, level: 2 })
+    } else if (b.type === 'text' && b.body) {
+      const re = /^(#{2,3})[ \t]+(.+?)[ \t]*#*[ \t]*$/gm
+      let m: RegExpExecArray | null
+      while ((m = re.exec(b.body)) !== null) {
+        const label = m[2].trim()
+        items.push({ id: slugify(label), label, level: m[1].length })
+      }
+    }
+  })
+  return items
+}
 
 function BlockView({ block, index, isLede }: { block: Block; index: number; isLede: boolean }) {
   switch (block.type) {
     case 'text':
       return (
         <div className={`${s.block} ${isLede ? s.lede : ''}`} data-reveal>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.body ?? ''}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+            {block.body ?? ''}
+          </ReactMarkdown>
         </div>
       )
 
@@ -82,9 +125,7 @@ export default function ArticleView({
   const firstTextIdx = article.blocks.findIndex((b) => b.type === 'text')
 
   // Section headings, for the sticky "In this guide" table of contents.
-  const toc = article.blocks
-    .map((b, i) => (b.type === 'heading' && b.heading ? { id: sectionId(i), label: b.heading } : null))
-    .filter((x): x is { id: string; label: string } => x !== null)
+  const toc = buildToc(article.blocks)
 
   return (
     <article className={s.article}>
@@ -155,7 +196,7 @@ export default function ArticleView({
                   <span className={s.tocHead}>In this guide</span>
                   <ol>
                     {toc.map((t) => (
-                      <li key={t.id}>
+                      <li key={t.id} data-sub={t.level > 2 ? '' : undefined}>
                         <a href={`#${t.id}`}>{t.label}</a>
                       </li>
                     ))}

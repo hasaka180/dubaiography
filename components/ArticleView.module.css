@@ -143,6 +143,16 @@
   color: var(--ink);
 }
 
+/* h3 sub-sections sit indented under their section. */
+.toc li[data-sub] {
+  padding-left: 1.25rem;
+}
+
+.toc li[data-sub]::before {
+  content: '';
+  color: var(--ink-faint);
+}
+
 /* Share sits under the byline only on narrow screens; the rail carries it
    on desktop. */
 .shareInline {
@@ -200,6 +210,8 @@
 .block :global(h3) {
   font-size: clamp(1.5rem, 3vw, 2.125rem);
   margin: 2.5rem 0 0.85rem;
+  /* Clear the sticky header when jumped to from the table of contents. */
+  scroll-margin-top: 6rem;
 }
 
 .block :global(table) {
