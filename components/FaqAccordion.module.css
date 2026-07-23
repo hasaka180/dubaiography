@@ -71,3 +71,11 @@
   color: var(--ink-soft);
   line-height: 1.7;
 }
+
+/* Match the article body's smaller reading size on phones. */
+@media (max-width: 640px) {
+  .item p {
+    font-size: 0.8em;
+    line-height: 1.62;
+  }
+}
