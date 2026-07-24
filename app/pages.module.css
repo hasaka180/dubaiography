@@ -55,6 +55,35 @@
   color: var(--accent);
 }
 
+/* ── section essay on category / archive pages ── */
+
+.sectionIntro {
+  max-width: 84ch;
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--rule);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.sectionIntroTitle {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+}
+
+.sectionIntro p {
+  margin: 0 0 1.15em;
+}
+
+@media (max-width: 640px) {
+  .sectionIntro {
+    font-size: 0.8em;
+    line-height: 1.62;
+  }
+}
+
 /* ── prose (about page) ── */
 
 .prose {

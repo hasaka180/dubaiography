@@ -27,8 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = article.metaDescription || article.standfirst || ''
   const url = `/articles/${article.slug}`
 
+  /* The root layout appends " — Dubaiography" to every title. On a long
+     headline that pushes the tag past the ~70 chars search engines show, so
+     drop the suffix rather than have the masthead be what gets truncated. */
+  const SUFFIX = ' — Dubaiography'
+  const titleTag =
+    title.length + SUFFIX.length > 70 ? { absolute: title } : title
+
   return {
-    title,
+    title: titleTag,
     description,
     alternates: { canonical: url },
     openGraph: {

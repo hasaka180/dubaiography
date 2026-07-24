@@ -58,7 +58,9 @@ export default function ShareBar({ url, title, variant = 'inline' }: Props) {
             className={s.btn}
             href={tg.href}
             target="_blank"
-            rel="noopener noreferrer"
+            /* nofollow: share intents redirect to consent/login walls, so
+               crawlers read them as broken outbound links. */
+            rel="nofollow noopener noreferrer"
             aria-label={tg.label}
             title={tg.label}
           >

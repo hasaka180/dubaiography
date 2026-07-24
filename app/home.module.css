@@ -86,6 +86,37 @@
   }
 }
 
+/* ── "what this is" — gives the homepage real copy for readers and crawlers ── */
+
+.about {
+  max-width: 84ch;
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--rule);
+}
+
+.aboutTitle {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin: 0 0 1.25rem;
+}
+
+.aboutText {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.aboutText p {
+  margin: 0 0 1.15em;
+}
+
+@media (max-width: 640px) {
+  .aboutText {
+    font-size: 0.8em;
+    line-height: 1.62;
+  }
+}
+
 /* ── the statement band ── */
 
 .statement {

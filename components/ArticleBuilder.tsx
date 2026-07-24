@@ -693,8 +693,11 @@ export default function ArticleBuilder() {
             onChange={(e) => set('metaTitle', e.target.value)}
           />
           <span className={s.hint}>
-            {(draft.metaTitle || draft.title).length} characters — Google truncates around 60. Blank
-            falls back to the headline.
+            {(draft.metaTitle || draft.title).length} characters
+            {(draft.metaTitle || draft.title).length > 70
+              ? ' — over 70, search engines will truncate this. Add a shorter meta title.'
+              : ' — Google truncates around 60.'}{' '}
+            Blank falls back to the headline.
           </span>
         </label>
 

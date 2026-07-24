@@ -72,6 +72,37 @@ export default async function HomePage() {
 
           <ArticleGrid articles={rest.slice(0, 9)} />
         </section>
+
+        {/* ── what this is ── */}
+        <section className={s.about} aria-labelledby="about-journal">
+          <h2 className={s.aboutTitle} id="about-journal">
+            An editorial journal of Dubai
+          </h2>
+          <div className={s.aboutText}>
+            <p>
+              Dubaiography is an independent journal about Dubai and the wider Emirates. It exists
+              because most writing about this city falls into one of two piles: property brochures,
+              or lists of brunches. Neither tells you how the place actually works — how a tower
+              gets consented and built in thirty months, why the free-zone map produced the density
+              it did, what the wind towers of Al Fahidi were doing before air conditioning, or which
+              beach is worth the drive in November.
+            </p>
+            <p>
+              We publish long-form reporting across four sections. Architecture &amp; Urbanism
+              covers how the city was drawn — the towers, the masterplans, the metro and the space
+              between them. Culture &amp; Guides covers neighbourhoods, kitchens, galleries and the
+              customs a visitor gets wrong. Business &amp; Property handles free zones, freehold,
+              tax and the mechanics of setting something up here. Travel &amp; Experience is the
+              desert, the coast and the trips that repay the effort.
+            </p>
+            <p>
+              Every piece is reported first-hand and dated. When the facts change — and in the
+              Emirates regulations move quickly — the article is updated in place rather than
+              quietly patched, because a guide that has gone stale without saying so is worse than
+              no guide at all.
+            </p>
+          </div>
+        </section>
       </div>
 
       {/* ── statement ── */}

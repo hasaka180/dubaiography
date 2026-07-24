@@ -72,6 +72,17 @@ export default async function CategoryPage({ params }: Props) {
       </nav>
 
       <ArticleGrid articles={articles} />
+
+      {/* Section essay — gives the listing real standing with readers and
+          search engines rather than being a bare grid of cards. */}
+      <section className={s.sectionIntro} aria-labelledby="about-section">
+        <h2 className={s.sectionIntroTitle} id="about-section">
+          About {meta.label}
+        </h2>
+        {meta.intro.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </section>
     </div>
   )
 }
