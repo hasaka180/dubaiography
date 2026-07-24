@@ -62,6 +62,12 @@ export interface Article {
   /* SEO overrides — blank falls back to title / standfirst */
   metaTitle?: string
   metaDescription?: string
+  /** Optional key-takeaway block rendered above the body. */
+  summaryTitle?: string
+  summaryDescription?: string
+  /** Raw JSON-LD pasted in the studio, emitted alongside the generated graph.
+      Ignored if it isn't valid JSON, so a typo can't break the page. */
+  jsonLd?: string
   /** Rendered as an FAQPage schema block + accordion. Strong for long-tail search. */
   faqs?: { q: string; a: string }[]
   /** Set false to keep an article out of listings, sitemap and search. */

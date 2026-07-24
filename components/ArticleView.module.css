@@ -171,6 +171,36 @@
   }
 }
 
+/* ── summary / key takeaway ── */
+
+.summary {
+  max-width: 84ch;
+  margin: clamp(2.5rem, 6vw, 4rem) 0 0;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2.25rem);
+  border-left: 3px solid var(--accent);
+  background: var(--paper-deep);
+}
+
+.summaryTitle {
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.summaryDesc {
+  margin: 0.75rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .summaryDesc {
+    font-size: 0.8em;
+    line-height: 1.62;
+  }
+}
+
 /* ── body ── */
 
 /* The column stays ranged left, on the same margin as the headline and

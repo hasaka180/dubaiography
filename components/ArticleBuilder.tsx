@@ -16,6 +16,19 @@ import s from './ArticleBuilder.module.css'
 
 const uid = () => Math.random().toString(36).slice(2, 10)
 
+/** Live feedback for the JSON-LD box — invalid JSON is dropped at render time,
+    so say so here rather than letting it fail silently. */
+const jsonLdStatus = (raw?: string) => {
+  const v = raw?.trim()
+  if (!v) return ''
+  try {
+    JSON.parse(v)
+    return '✓ Valid JSON.'
+  } catch {
+    return '✗ Not valid JSON — it will be skipped until fixed.'
+  }
+}
+
 const blankArticle = (): Article => ({
   slug: '',
   title: '',
@@ -594,6 +607,33 @@ export default function ArticleBuilder() {
           ))}
         </div>
 
+        {/* ── Summary ── */}
+        <h2 className={s.groupTitle}>Summary</h2>
+        <p className={s.hint} style={{ marginBottom: '1rem' }}>
+          Optional key-takeaway block shown above the body — good for readers who skim and for
+          answer engines that lift a definition.
+        </p>
+
+        <label className={s.field}>
+          <span>Summary heading</span>
+          <input
+            type="text"
+            placeholder="Key takeaway or section title…"
+            value={draft.summaryTitle ?? ''}
+            onChange={(e) => set('summaryTitle', e.target.value)}
+          />
+        </label>
+
+        <label className={s.field}>
+          <span>Summary description</span>
+          <textarea
+            placeholder="A short intro paragraph that appears before the body…"
+            value={draft.summaryDescription ?? ''}
+            onChange={(e) => set('summaryDescription', e.target.value)}
+            style={{ minHeight: 90 }}
+          />
+        </label>
+
         {/* ── FAQs ── */}
         <h2 className={s.groupTitle}>FAQs</h2>
         <p className={s.hint} style={{ marginBottom: '1rem' }}>
@@ -668,6 +708,22 @@ export default function ArticleBuilder() {
           <span className={s.hint}>
             {(draft.metaDescription || draft.standfirst || '').length} characters — aim for 140–160.
             Blank falls back to the standfirst.
+          </span>
+        </label>
+
+        {/* ── custom JSON-LD ── */}
+        <label className={s.field}>
+          <span>JSON-LD schema</span>
+          <textarea
+            value={draft.jsonLd ?? ''}
+            onChange={(e) => set('jsonLd', e.target.value)}
+            placeholder={'{\n  "@context": "https://schema.org",\n  "@type": "HowTo",\n  "name": "…"\n}'}
+            spellCheck={false}
+            style={{ minHeight: 180, fontFamily: 'ui-monospace, Menlo, monospace', fontSize: 12 }}
+          />
+          <span className={s.hint}>
+            {jsonLdStatus(draft.jsonLd)} Emitted in addition to the Article, breadcrumb and FAQ
+            schema this page already generates — paste a full {'{ … }'} object.
           </span>
         </label>
       </div>

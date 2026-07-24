@@ -168,6 +168,15 @@ export default function ArticleView({
       <div className="shell">
         <div className={s.layout}>
           <div className={s.main}>
+            {(article.summaryTitle || article.summaryDescription) && (
+              <aside className={s.summary} data-reveal>
+                {article.summaryTitle && <h2 className={s.summaryTitle}>{article.summaryTitle}</h2>}
+                {article.summaryDescription && (
+                  <p className={s.summaryDesc}>{article.summaryDescription}</p>
+                )}
+              </aside>
+            )}
+
             <div className={s.body}>
               {article.blocks.map((b, i) => (
                 <BlockView key={b.id ?? i} block={b} index={i} isLede={i === firstTextIdx} />

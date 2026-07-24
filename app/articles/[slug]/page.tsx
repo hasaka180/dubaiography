@@ -101,6 +101,17 @@ export default async function ArticlePage({ params }: Props) {
     })
   }
 
+  /* Custom schema pasted in the studio. Re-serialised from the parsed value so
+     malformed JSON is dropped rather than emitted into the page. */
+  let customLd: string | null = null
+  if (article.jsonLd?.trim()) {
+    try {
+      customLd = JSON.stringify(JSON.parse(article.jsonLd))
+    } catch {
+      console.warn(`Ignoring invalid jsonLd on article "${article.slug}"`)
+    }
+  }
+
   return (
     <>
       <script
@@ -109,6 +120,9 @@ export default async function ArticlePage({ params }: Props) {
           __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }),
         }}
       />
+      {customLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: customLd }} />
+      )}
       <ArticleView article={article} related={related} url={url} />
     </>
   )
