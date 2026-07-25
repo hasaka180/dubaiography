@@ -51,11 +51,11 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
   icons: {
     icon: [
-      { url: '/assets/32.jpg', sizes: '32x32', type: 'image/jpeg' },
-      { url: '/assets/16.jpg', sizes: '16x16', type: 'image/jpeg' },
-      { url: '/assets/192.jpg', sizes: '192x192', type: 'image/jpeg' },
+      { url: '/assets/32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/192.png', sizes: '192x192', type: 'image/png' },
     ],
-    apple: { url: '/assets/180.jpg', sizes: '180x180', type: 'image/jpeg' },
+    apple: { url: '/assets/180.png', sizes: '180x180', type: 'image/png' },
   },
   openGraph: {
     type: 'website',
