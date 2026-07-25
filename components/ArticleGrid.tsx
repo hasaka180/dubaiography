@@ -17,9 +17,10 @@ export function ArticleCard({ article, index = 0 }: { article: Article; index?: 
       <div className={s.thumb}>
         {article.cover ? (
           // Plain <img>: covers come from R2 at arbitrary sizes, and the grid
-          // already constrains them with aspect-ratio + object-fit.
+          // already constrains them with aspect-ratio + object-fit. width/height
+          // supply the intrinsic ratio so the browser reserves space (no CLS).
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={article.cover} alt={article.coverAlt || ''} loading="lazy" />
+          <img src={article.cover} alt={article.coverAlt || ''} width={1200} height={900} loading="lazy" />
         ) : (
           <CoverPlaceholder
             slug={article.slug}
@@ -52,7 +53,7 @@ export function LeadArticle({ article }: { article: Article }) {
       <div className={s.leadArt}>
         {article.cover ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={article.cover} alt={article.coverAlt || ''} />
+          <img src={article.cover} alt={article.coverAlt || ''} width={1600} height={1000} />
         ) : (
           <CoverPlaceholder
             slug={article.slug}

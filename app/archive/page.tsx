@@ -35,6 +35,9 @@ export default async function ArchivePage() {
         ))}
       </nav>
 
+      <h2 className={s.gridHeading} id="latest">
+        Every article
+      </h2>
       <ArticleGrid articles={articles} />
 
       <section className={s.sectionIntro} aria-labelledby="about-archive">

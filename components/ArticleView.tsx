@@ -78,7 +78,7 @@ function BlockView({ block, index, isLede }: { block: Block; index: number; isLe
       return (
         <figure className={`${s.figure} ${block.full ? s.full : ''}`} data-reveal>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={block.src} alt={block.caption || ''} loading="lazy" />
+          <img src={block.src} alt={block.caption || ''} width={1600} height={1000} loading="lazy" />
           {block.caption && <figcaption className={s.caption}>{block.caption}</figcaption>}
         </figure>
       )
@@ -101,7 +101,7 @@ function BlockView({ block, index, isLede }: { block: Block; index: number; isLe
           {block.items.map((it, i) => (
             <figure key={i}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={it.src} alt={it.caption || ''} loading="lazy" />
+              <img src={it.src} alt={it.caption || ''} width={1200} height={900} loading="lazy" />
               {it.caption && <figcaption className={s.caption}>{it.caption}</figcaption>}
             </figure>
           ))}
@@ -161,7 +161,13 @@ export default function ArticleView({
         <figure className={s.cover} style={{ marginTop: 'clamp(2rem, 5vw, 3.5rem)' }}>
           {/* The cover is the LCP element — load it eagerly, never lazily. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={article.cover} alt={article.coverAlt || article.title} />
+          <img
+            src={article.cover}
+            alt={article.coverAlt || article.title}
+            width={1600}
+            height={900}
+            fetchPriority="high"
+          />
         </figure>
       )}
 

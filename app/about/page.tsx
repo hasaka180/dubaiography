@@ -3,7 +3,7 @@ import s from '../pages.module.css'
 export const metadata = {
   title: 'About the journal',
   description:
-    'Dubaiography is an independent editorial journal covering the architecture, culture, business and landscape of Dubai — reported first-hand, published in long form.',
+    'Dubaiography is an independent journal on Dubai — architecture, culture, business and travel, reported first-hand and published in long form.',
   alternates: { canonical: '/about' },
 }
 

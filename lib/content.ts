@@ -12,11 +12,13 @@ export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
   Category,
-  { label: string; blurb: string; intro: string[] }
+  { label: string; blurb: string; description: string; intro: string[] }
 > = {
   culture: {
     label: 'Culture & Guides',
     blurb: 'Neighbourhoods, galleries, kitchens and the people shaping the city day to day.',
+    description:
+      'Neighbourhood guides, food, galleries and the customs visitors get wrong — culture in Dubai reported on foot, from Al Fahidi to Alserkal Avenue.',
     intro: [
       'Dubai is often described as a city without a past, which is a convenient story for people who have not looked. The creek was a working harbour long before the towers arrived, the coral-and-gypsum houses of Al Fahidi still stand, and the pearling economy that funded them shaped families who are still here. This section covers the parts of the city that do not photograph as easily as the skyline.',
       'We write neighbourhood guides that assume you want to walk rather than be driven — Al Fahidi and Al Seef, Deira and the gold and spice souks, Satwa and Karama, Alserkal Avenue and the warehouse galleries of Al Quoz. We cover the food properly: Emirati staples built from dates, camel milk, rice and Gulf fish, and the two hundred nationalities who have since layered their own cooking on top, from a Michelin tasting menu to a two-dirham shawarma.',
@@ -26,6 +28,8 @@ export const CATEGORY_META: Record<
   architecture: {
     label: 'Architecture & Urbanism',
     blurb: 'How Dubai was drawn — towers, wind towers, masterplans and the space between them.',
+    description:
+      'How Dubai was built, explained: the Burj Khalifa, wind towers, the palm islands, the metro and the masterplans — reported by how they actually work.',
     intro: [
       'No other city has built this much, this fast, this recently. Almost everything you can see from Sheikh Zayed Road was constructed inside a single lifetime, and much of it inside a single generation. That makes Dubai an unusually legible case study: the decisions are recent enough to trace, and the people who made them are mostly still working.',
       'This section takes the buildings seriously as buildings. We look at how the Burj Khalifa\'s buttressed core solved a wind problem before it solved a height problem, why the Burj Al Arab sits on a man-made island, what the barjeel wind towers of the old quarters actually did before air conditioning, and how the palm and world islands were dredged. We also cover the work that never makes the postcards — district cooling, the metro, labour accommodation, the drainage that keeps a desert city from flooding when it does rain.',
@@ -35,6 +39,8 @@ export const CATEGORY_META: Record<
   business: {
     label: 'Business & Property',
     blurb: 'Free zones, freehold, funding and the mechanics of building something here.',
+    description:
+      'Free zone or mainland, freehold, corporate tax, visas and setup costs — the mechanics of doing business and buying property in Dubai, kept current.',
     intro: [
       'Setting up in Dubai is genuinely straightforward compared with most places, which is exactly why so much of the advice about it is bad — the process is simple enough that everyone has an opinion and few people update theirs. Regulations here move quickly. This section explains the mechanics as they currently stand, with dates on everything.',
       'The first structural decision is free zone or mainland, and it determines more than people expect: ownership, where you can invoice, which visas you can sponsor, whether you need a local service agent, and what your annual renewal actually costs. We explain the trade-off without the brochure language, and we cover the specific zones — DMCC, DIFC, IFZA, Meydan, JAFZA — on what they charge and who they suit.',
@@ -44,6 +50,8 @@ export const CATEGORY_META: Record<
   travel: {
     label: 'Travel & Experience',
     blurb: 'Desert, coast and everything worth the detour, reported first-hand.',
+    description:
+      'Desert reserves, the coast, the mountains and the day trips worth the drive — Dubai travel reported first-hand, with the seasons and timing explained.',
     intro: [
       'Most Dubai travel writing is a list of superlatives — tallest, largest, first. This section is for the trip you would actually enjoy, which usually means understanding the seasons, going where the crowds are not, and leaving the city for at least a day.',
       'The desert is the real attraction and the most misrepresented. We cover the conservation reserves and what separates a genuine one from a dune-bashing operation, when to go for cool nights and clear skies, what an overnight camp is really like, and the wadis and mountain roads of the Hajar range once you cross into the eastern emirates. The coast gets the same treatment: the public beaches worth the drive, the mangroves, the diving, and the boat routes along the creek that cost a couple of dirhams.',

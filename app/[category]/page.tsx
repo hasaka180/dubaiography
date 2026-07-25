@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const meta = CATEGORY_META[category]
   return {
     title: `${meta.label} in Dubai`,
-    description: meta.blurb,
+    description: meta.description,
     alternates: { canonical: `/${category}` },
     openGraph: {
       title: `${meta.label} — Dubaiography`,
-      description: meta.blurb,
+      description: meta.description,
       url: `/${category}`,
       type: 'website',
     },
@@ -71,6 +71,11 @@ export default async function CategoryPage({ params }: Props) {
         <Link href="/archive">All articles</Link>
       </nav>
 
+      {/* An h2 above the grid keeps the heading order sequential — the cards
+          are h3s, and jumping h1 → h3 trips accessibility/SEO checks. */}
+      <h2 className={s.gridHeading} id="latest">
+        {articles.length ? `Latest in ${meta.label}` : `${meta.label}`}
+      </h2>
       <ArticleGrid articles={articles} />
 
       {/* Section essay — gives the listing real standing with readers and
