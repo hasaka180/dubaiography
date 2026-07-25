@@ -48,6 +48,15 @@ export const metadata: Metadata = {
     'UAE editorial',
   ],
   alternates: { canonical: '/' },
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [
+      { url: '/assets/32.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/assets/16.jpg', sizes: '16x16', type: 'image/jpeg' },
+      { url: '/assets/192.jpg', sizes: '192x192', type: 'image/jpeg' },
+    ],
+    apple: { url: '/assets/180.jpg', sizes: '180x180', type: 'image/jpeg' },
+  },
   openGraph: {
     type: 'website',
     siteName: 'Dubaiography',
