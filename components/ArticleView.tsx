@@ -6,7 +6,23 @@ import FaqAccordion from './FaqAccordion'
 import ShareBar from './ShareBar'
 import { ArticleCard } from './ArticleGrid'
 import { CATEGORY_META, formatDate, slugify, type Article, type Block } from '@/lib/content'
+import { renderHtmlBlock, type HtmlHeading } from '@/lib/html'
 import s from './ArticleView.module.css'
+
+/** Sanitized HTML + heading ids for each html-format text block, keyed by
+    block id, computed once and shared by the renderer and the table of
+    contents so both agree on the slugs. */
+type RenderedHtml = Map<string, { html: string; headings: HtmlHeading[] }>
+
+function renderHtmlBlocks(blocks: Block[]): RenderedHtml {
+  const map: RenderedHtml = new Map()
+  for (const b of blocks) {
+    if (b.type === 'text' && b.format === 'html' && b.body) {
+      map.set(b.id, renderHtmlBlock(b.body))
+    }
+  }
+  return map
+}
 
 /** Anchor id for a dedicated heading block — the table of contents links here. */
 const sectionId = (i: number) => `sec-${i}`
@@ -34,11 +50,13 @@ type TocItem = { id: string; label: string; level: number }
 
 /** Build the table of contents from both dedicated heading blocks and
     markdown ## / ### headings inside text blocks. */
-function buildToc(blocks: Block[]): TocItem[] {
+function buildToc(blocks: Block[], rendered: RenderedHtml): TocItem[] {
   const items: TocItem[] = []
   blocks.forEach((b, i) => {
     if (b.type === 'heading' && b.heading) {
       items.push({ id: sectionId(i), label: b.heading, level: 2 })
+    } else if (b.type === 'text' && b.format === 'html') {
+      for (const h of rendered.get(b.id)?.headings ?? []) items.push(h)
     } else if (b.type === 'text' && b.body) {
       const re = /^(#{2,3})[ \t]+(.+?)[ \t]*#*[ \t]*$/gm
       let m: RegExpExecArray | null
@@ -51,9 +69,28 @@ function buildToc(blocks: Block[]): TocItem[] {
   return items
 }
 
-function BlockView({ block, index, isLede }: { block: Block; index: number; isLede: boolean }) {
+function BlockView({
+  block,
+  index,
+  isLede,
+  html,
+}: {
+  block: Block
+  index: number
+  isLede: boolean
+  html?: string
+}) {
   switch (block.type) {
     case 'text':
+      if (block.format === 'html') {
+        return (
+          <div
+            className={`${s.block} ${isLede ? s.lede : ''}`}
+            data-reveal
+            dangerouslySetInnerHTML={{ __html: html ?? '' }}
+          />
+        )
+      }
       return (
         <div className={`${s.block} ${isLede ? s.lede : ''}`} data-reveal>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
@@ -124,8 +161,11 @@ export default function ArticleView({
 }) {
   const firstTextIdx = article.blocks.findIndex((b) => b.type === 'text')
 
+  // Sanitize html blocks once, then share with the table of contents.
+  const rendered = renderHtmlBlocks(article.blocks)
+
   // Section headings, for the sticky "In this guide" table of contents.
-  const toc = buildToc(article.blocks)
+  const toc = buildToc(article.blocks, rendered)
 
   return (
     <article className={s.article}>
@@ -185,7 +225,13 @@ export default function ArticleView({
 
             <div className={s.body}>
               {article.blocks.map((b, i) => (
-                <BlockView key={b.id ?? i} block={b} index={i} isLede={i === firstTextIdx} />
+                <BlockView
+                  key={b.id ?? i}
+                  block={b}
+                  index={i}
+                  isLede={i === firstTextIdx}
+                  html={rendered.get(b.id)?.html}
+                />
               ))}
             </div>
 

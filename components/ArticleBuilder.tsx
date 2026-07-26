@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import TurndownService from 'turndown'
 import { gfm } from 'turndown-plugin-gfm'
+import HtmlEditor from './HtmlEditor'
 import {
   CATEGORIES,
   CATEGORY_META,
@@ -473,18 +474,58 @@ export default function ArticleBuilder() {
             </div>
 
             {b.type === 'text' && (
-              <label className={s.field}>
-                <span>Markdown</span>
-                <textarea
-                  value={b.body ?? ''}
-                  onChange={(e) => patchBlock(b.id, { body: e.target.value })}
-                  onPaste={(e) => pasteAsMarkdown(e, b.id, b.body ?? '')}
-                />
-                <span className={s.hint}>
-                  Supports **bold**, _italic_, [links](url), lists, tables and ## subheads. Paste
-                  from a doc or web page and the formatting is kept.
-                </span>
-              </label>
+              <div className={s.field}>
+                <div className={s.editorHead}>
+                  <span>Body</span>
+                  <div className={s.segmented} role="tablist">
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={(b.format ?? 'markdown') === 'markdown'}
+                      className={(b.format ?? 'markdown') === 'markdown' ? s.segOn : ''}
+                      onClick={() => patchBlock(b.id, { format: 'markdown' })}
+                    >
+                      Markdown
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={b.format === 'html'}
+                      className={b.format === 'html' ? s.segOn : ''}
+                      onClick={() => patchBlock(b.id, { format: 'html' })}
+                    >
+                      HTML
+                    </button>
+                  </div>
+                </div>
+
+                {b.format === 'html' ? (
+                  <>
+                    <HtmlEditor
+                      key={`${b.id}:html`}
+                      value={b.body ?? ''}
+                      onChange={(html) => patchBlock(b.id, { body: html })}
+                      className={s.htmlEditor}
+                    />
+                    <span className={s.hint}>
+                      Paste from a doc or web page and the styling is kept. Colours and fonts are
+                      normalised to the site&apos;s look; ## and tables carry through.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <textarea
+                      value={b.body ?? ''}
+                      onChange={(e) => patchBlock(b.id, { body: e.target.value })}
+                      onPaste={(e) => pasteAsMarkdown(e, b.id, b.body ?? '')}
+                    />
+                    <span className={s.hint}>
+                      Supports **bold**, _italic_, [links](url), lists, tables and ## subheads.
+                      Paste from a doc or web page and it is kept as Markdown.
+                    </span>
+                  </>
+                )}
+              </div>
             )}
 
             {b.type === 'heading' && (

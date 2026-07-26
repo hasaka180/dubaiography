@@ -206,6 +206,99 @@
   color: #6f6960;
 }
 
+/* ── text block: Markdown / HTML toggle ── */
+
+.editorHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.editorHead > span {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8d867d;
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid #332e29;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.segmented button {
+  background: #1c1917;
+  color: #8d867d;
+  border: 0;
+  padding: 0.3rem 0.7rem;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.segmented button + button {
+  border-left: 1px solid #332e29;
+}
+
+.segmented button:hover {
+  color: #ece7de;
+}
+
+.segOn {
+  background: var(--terracotta) !important;
+  color: #fff !important;
+}
+
+/* Rich-text (HTML) editor — styled to echo the article so a paste previews
+   the way it will publish. */
+.htmlEditor {
+  background: #1c1917;
+  border: 1px solid #332e29;
+  border-radius: 4px;
+  color: #ece7de;
+  padding: 0.7rem 0.8rem;
+  min-height: 140px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.htmlEditor:focus {
+  outline: 1px solid var(--terracotta);
+  border-color: var(--terracotta);
+}
+
+.htmlEditor :is(h2, h3, h4) {
+  font-family: var(--font-display, serif);
+  line-height: 1.2;
+  margin: 1rem 0 0.4rem;
+}
+
+.htmlEditor h2 { font-size: 1.4rem; }
+.htmlEditor h3 { font-size: 1.15rem; }
+.htmlEditor p { margin: 0 0 0.7rem; }
+.htmlEditor a { color: var(--terracotta); text-decoration: underline; }
+
+.htmlEditor table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.9em;
+}
+
+.htmlEditor :is(th, td) {
+  border: 1px solid #332e29;
+  padding: 0.35rem 0.55rem;
+  text-align: left;
+}
+
+.htmlEditor :is(ul, ol) {
+  padding-left: 1.4rem;
+  margin: 0 0 0.7rem;
+}
+
 .checks {
   display: flex;
   flex-wrap: wrap;

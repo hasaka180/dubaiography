@@ -65,7 +65,7 @@ export const isCategory = (v: unknown): v is Category =>
 
 /* ── Article body blocks (what the studio builder composes) ── */
 export type Block =
-  | { id: string; type: 'text'; body?: string }
+  | { id: string; type: 'text'; body?: string; format?: 'markdown' | 'html' }
   | { id: string; type: 'heading'; heading?: string; eyebrow?: string }
   | { id: string; type: 'image'; src: string; caption?: string; full?: boolean }
   | { id: string; type: 'quote'; body?: string; attribution?: string }
