@@ -1,6 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import TurndownService from 'turndown'
+import { gfm } from 'turndown-plugin-gfm'
 import {
   CATEGORIES,
   CATEGORY_META,
@@ -170,6 +172,40 @@ export default function ArticleBuilder() {
       ...d,
       blocks: d.blocks.map((b) => (b.id === id ? ({ ...b, ...patch } as Block) : b)),
     }))
+
+  /* Convert pasted rich text (Word, Google Docs, web pages) to Markdown so
+     bold, links, headings and tables survive instead of collapsing to plain
+     text. Configured to match what the renderer expects: ATX ## headings and
+     - bullets. */
+  const turndown = useMemo(() => {
+    const td = new TurndownService({
+      headingStyle: 'atx',
+      bulletListMarker: '-',
+      codeBlockStyle: 'fenced',
+      emDelimiter: '_',
+    })
+    td.use(gfm)
+    return td
+  }, [])
+
+  const pasteAsMarkdown = (
+    e: React.ClipboardEvent<HTMLTextAreaElement>,
+    id: string,
+    current: string,
+  ) => {
+    const html = e.clipboardData.getData('text/html')
+    if (!html) return // plain text — let the browser paste it as-is
+    e.preventDefault()
+    const md = turndown.turndown(html).trim()
+    const ta = e.currentTarget
+    const { selectionStart: a, selectionEnd: b } = ta
+    const next = current.slice(0, a) + md + current.slice(b)
+    patchBlock(id, { body: next })
+    // Restore the caret after React re-renders the textarea.
+    requestAnimationFrame(() => {
+      ta.selectionStart = ta.selectionEnd = a + md.length
+    })
+  }
 
   const moveBlock = (id: string, dir: -1 | 1) =>
     setDraft((d) => {
@@ -439,9 +475,14 @@ export default function ArticleBuilder() {
             {b.type === 'text' && (
               <label className={s.field}>
                 <span>Markdown</span>
-                <textarea value={b.body ?? ''} onChange={(e) => patchBlock(b.id, { body: e.target.value })} />
+                <textarea
+                  value={b.body ?? ''}
+                  onChange={(e) => patchBlock(b.id, { body: e.target.value })}
+                  onPaste={(e) => pasteAsMarkdown(e, b.id, b.body ?? '')}
+                />
                 <span className={s.hint}>
-                  Supports **bold**, _italic_, [links](url), lists, tables and ## subheads.
+                  Supports **bold**, _italic_, [links](url), lists, tables and ## subheads. Paste
+                  from a doc or web page and the formatting is kept.
                 </span>
               </label>
             )}
