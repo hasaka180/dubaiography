@@ -1,6 +1,7 @@
 import 'server-only'
 import fs from 'fs/promises'
 import path from 'path'
+import { createHash } from 'crypto'
 import { Client, TablesDB, Query } from 'node-appwrite'
 import { byDateDesc, type Article, type Category } from './content'
 
@@ -30,6 +31,26 @@ const parseRow = (row: Record<string, unknown>): Article =>
   JSON.parse((row.data as string) ?? '{}') as Article
 
 const toRow = (a: Article) => ({ slug: a.slug, title: a.title, data: JSON.stringify(a) })
+
+/* Appwrite row ids are capped at 36 chars ([A-Za-z0-9._-], no leading special).
+   The slug is the row id, so a long headline blows past the limit. Short,
+   already-valid slugs pass through unchanged — so existing rows still resolve —
+   and anything longer is mapped deterministically to a 36-char id (readable
+   head + hash of the full slug, so it stays unique and stable across
+   read/write/delete). The full slug still lives in the `slug` column and in
+   the article data, so URLs are unaffected. */
+const AW_ID_MAX = 36
+function rowIdFor(slug: string): string {
+  if (slug.length <= AW_ID_MAX && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(slug)) return slug
+  const hash = createHash('sha1').update(slug).digest('hex').slice(0, 8)
+  const head = slug
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+/, '')
+    .slice(0, AW_ID_MAX - 9)
+    .replace(/-+$/, '')
+  return `${head || 'a'}-${hash}`
+}
 
 /* ── file fallback (local dev / CMS outage) ── */
 async function readFileStore(): Promise<Store> {
@@ -79,7 +100,7 @@ async function ensureSeeded(): Promise<void> {
       try {
         if ((await readAll()).length) return
         for (const a of (await readFileStore()).articles) {
-          await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: a.slug, data: toRow(a) })
+          await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(a.slug), data: toRow(a) })
         }
         lastSeedError = null
       } catch (e) {
@@ -117,7 +138,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
     await ensureSeeded()
     try {
       return parseRow(
-        (await tables.getRow({ databaseId: AW.db!, tableId: AW.col!, rowId: slug })) as Record<
+        (await tables.getRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(slug) })) as Record<
           string,
           unknown
         >,
@@ -140,7 +161,7 @@ export async function getRelated(slug: string, category: Category, limit = 3): P
 export async function upsertArticle(article: Article): Promise<Article> {
   const item = { ...article, updated: new Date().toISOString() }
   if (tables) {
-    await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: item.slug, data: toRow(item) })
+    await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(item.slug), data: toRow(item) })
     return item
   }
   const store = await readFileStore()
@@ -154,7 +175,7 @@ export async function upsertArticle(article: Article): Promise<Article> {
 export async function deleteArticle(slug: string): Promise<boolean> {
   if (tables) {
     try {
-      await tables.deleteRow({ databaseId: AW.db!, tableId: AW.col!, rowId: slug })
+      await tables.deleteRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(slug) })
       return true
     } catch {
       return false
