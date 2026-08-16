@@ -60,6 +60,17 @@ export default function SiteFooter() {
 
         <div className={s.bottom}>
           <span>© {new Date().getFullYear()} Dubaiography</span>
+          <span>
+            Powered by{' '}
+            <a
+              href="https://thedarwin.co/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={s.credit}
+            >
+              Darwin Corp
+            </a>
+          </span>
           <span>Dubai, United Arab Emirates</span>
         </div>
       </div>
