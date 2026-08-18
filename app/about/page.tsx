@@ -29,13 +29,15 @@ export default function AboutPage() {
 
         <h2>What we cover</h2>
         <p>
-          Four sections, deliberately broad. <strong>Architecture &amp; Urbanism</strong> looks at how
-          the city was drawn — the towers, the wind towers, the masterplans and the space between
-          them. <strong>Culture &amp; Guides</strong> covers neighbourhoods, galleries, kitchens and
-          the people shaping daily life. <strong>Business &amp; Property</strong> handles free zones,
+          Four evergreen sections, deliberately broad, plus the news.{' '}
+          <strong>Architecture &amp; Urbanism</strong> looks at how the city was drawn — the towers,
+          the wind towers, the masterplans and the space between them.{' '}
+          <strong>Culture &amp; Guides</strong> covers neighbourhoods, galleries, kitchens and the
+          people shaping daily life. <strong>Business &amp; Property</strong> handles free zones,
           freehold and the mechanics of building something here.{' '}
           <strong>Travel &amp; Experience</strong> is the desert, the coast, and everything worth the
-          detour.
+          detour. <strong>Breaking News</strong> follows the openings, rulings and launches
+          reshaping the city, and explains what they mean.
         </p>
 
         <h2>How we work</h2>

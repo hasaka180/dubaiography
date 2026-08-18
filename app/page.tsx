@@ -31,13 +31,13 @@ export default async function HomePage() {
       <div className="shell">
         {lead && <LeadArticle article={lead} />}
 
-        {/* ── the four verticals ── */}
+        {/* ── the sections ── */}
         <section className={s.section} aria-labelledby="sections-head">
           <div className={s.head}>
             <div>
               <span className="eyebrow">The journal</span>
               <h2 className={s.headTitle} id="sections-head">
-                Four ways to read the city
+                Ways to read the city
               </h2>
             </div>
           </div>
@@ -88,12 +88,14 @@ export default async function HomePage() {
               beach is worth the drive in November.
             </p>
             <p>
-              We publish long-form reporting across four sections. Architecture &amp; Urbanism
-              covers how the city was drawn — the towers, the masterplans, the metro and the space
-              between them. Culture &amp; Guides covers neighbourhoods, kitchens, galleries and the
-              customs a visitor gets wrong. Business &amp; Property handles free zones, freehold,
-              tax and the mechanics of setting something up here. Travel &amp; Experience is the
-              desert, the coast and the trips that repay the effort.
+              We publish long-form reporting across four evergreen sections, plus the news.
+              Architecture &amp; Urbanism covers how the city was drawn — the towers, the
+              masterplans, the metro and the space between them. Culture &amp; Guides covers
+              neighbourhoods, kitchens, galleries and the customs a visitor gets wrong. Business
+              &amp; Property handles free zones, freehold, tax and the mechanics of setting
+              something up here. Travel &amp; Experience is the desert, the coast and the trips that
+              repay the effort. Breaking News tracks the openings, rulings and launches reshaping
+              the city, and explains what they mean.
             </p>
             <p>
               Every piece is reported first-hand and dated. When the facts change — and in the

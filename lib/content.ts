@@ -7,13 +7,24 @@
    ============================================================ */
 
 /* ── Editorial verticals ── */
-export const CATEGORIES = ['culture', 'architecture', 'business', 'travel'] as const
+export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'travel'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
   Category,
   { label: string; blurb: string; description: string; intro: string[] }
 > = {
+  'breaking-news': {
+    label: 'Breaking News',
+    blurb: 'The stories moving now — openings, rulings, launches and the decisions reshaping the city.',
+    description:
+      'Breaking news from Dubai and the Emirates — openings, regulations, launches and the developments reshaping the city, reported as they happen.',
+    intro: [
+      'Dubai changes on a timescale most cities reserve for decades. A district opens, a law is rewritten, a tower tops out, a route launches — and the version of the city you knew last month is already out of date. This section tracks the news as it lands, then explains what it actually means.',
+      'We cover the developments that move the city: major openings and launches, changes to visa, property and business regulation, transport and infrastructure milestones, and the announcements that reshape neighbourhoods. The aim is not to be first with a headline but to be clear about what a change does — who it affects, what it costs, and what happens next.',
+      'Every item is dated and updated in place as a story develops, because breaking news dates faster than anything else on the site. Where a story connects to a longer piece — a guide, an explainer, a piece of reporting — we link across, so the news sits in context rather than in isolation.',
+    ],
+  },
   culture: {
     label: 'Culture & Guides',
     blurb: 'Neighbourhoods, galleries, kitchens and the people shaping the city day to day.',
