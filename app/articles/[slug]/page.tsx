@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   try {
     return (await getArticles()).map((a) => ({ slug: a.slug }))
   } catch {
-    // CMS unreachable at build time — pages still render on demand.
+    // CMS unreachable at build time - pages still render on demand.
     return []
   }
 }
@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = article.metaDescription || article.standfirst || ''
   const url = `/articles/${article.slug}`
 
-  /* The root layout appends " — Dubaiography" to every title. On a long
+  /* The root layout appends " - Dubaiography" to every title. On a long
      headline that pushes the tag past the ~70 chars search engines show, so
      drop the suffix rather than have the masthead be what gets truncated. */
-  const SUFFIX = ' — Dubaiography'
+  const SUFFIX = ' - Dubaiography'
   const titleTag =
     title.length + SUFFIX.length > 70 ? { absolute: title } : title
 

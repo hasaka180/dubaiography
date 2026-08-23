@@ -27,14 +27,24 @@ const tables =
     ? new TablesDB(new Client().setEndpoint(AW.endpoint).setProject(AW.project).setKey(AW.apiKey))
     : null
 
-const parseRow = (row: Record<string, unknown>): Article =>
-  JSON.parse((row.data as string) ?? '{}') as Article
+/* House style: no em-dash. Normalising the serialized article once here strips
+   it from every field at once (title, standfirst, blocks, faqs, meta…) for both
+   stored and already-saved content, without touching JSON structure — the
+   em-dash only ever appears inside string values. */
+const stripEmDash = (s: string) => s.replace(/ — /g, ' - ').replace(/—/g, '-')
 
-const toRow = (a: Article) => ({ slug: a.slug, title: a.title, data: JSON.stringify(a) })
+const parseRow = (row: Record<string, unknown>): Article =>
+  JSON.parse(stripEmDash((row.data as string) ?? '{}')) as Article
+
+const toRow = (a: Article) => ({
+  slug: a.slug,
+  title: stripEmDash(a.title),
+  data: stripEmDash(JSON.stringify(a)),
+})
 
 /* Appwrite row ids are capped at 36 chars ([A-Za-z0-9._-], no leading special).
    The slug is the row id, so a long headline blows past the limit. Short,
-   already-valid slugs pass through unchanged — so existing rows still resolve —
+   already-valid slugs pass through unchanged - so existing rows still resolve -
    and anything longer is mapped deterministically to a 36-char id (readable
    head + hash of the full slug, so it stays unique and stable across
    read/write/delete). The full slug still lives in the `slug` column and in
@@ -55,7 +65,7 @@ function rowIdFor(slug: string): string {
 /* ── file fallback (local dev / CMS outage) ── */
 async function readFileStore(): Promise<Store> {
   try {
-    return JSON.parse(await fs.readFile(FILE, 'utf-8')) as Store
+    return JSON.parse(stripEmDash(await fs.readFile(FILE, 'utf-8'))) as Store
   } catch {
     return { articles: [] }
   }
@@ -76,7 +86,7 @@ async function readAll(): Promise<Article[]> {
       })
       return res.rows.map((r) => parseRow(r as Record<string, unknown>))
     } catch (e) {
-      // Appwrite unreachable/misconfigured — don't crash the build or the API;
+      // Appwrite unreachable/misconfigured - don't crash the build or the API;
       // fall back to the bundled seed file so the site stays readable.
       console.error('Appwrite read failed, falling back to data/articles.json:', e)
       return (await readFileStore()).articles
@@ -89,7 +99,7 @@ async function readAll(): Promise<Article[]> {
    Appwrite project comes up with the demo issue already in place. */
 let seedPromise: Promise<void> | null = null
 
-/** Why the last seed attempt failed, if it did. Surfaced by ping() — a silent
+/** Why the last seed attempt failed, if it did. Surfaced by ping() - a silent
     seed failure used to present as an inexplicably empty site. */
 let lastSeedError: string | null = null
 
@@ -122,7 +132,7 @@ export async function getArticles(
   await ensureSeeded()
   let all = await readAll()
 
-  /* Appwrite answered, but with nothing — and seeding it failed. Without this
+  /* Appwrite answered, but with nothing - and seeding it failed. Without this
      the listings go blank while individual articles still resolve from the
      bundled file, which reads as a broken site rather than a misconfigured
      one. Fall back to the same file the rest of the app falls back to. */
@@ -144,7 +154,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
         >,
       )
     } catch {
-      // row missing, or Appwrite down — fall back to the seed file before giving up
+      // row missing, or Appwrite down - fall back to the seed file before giving up
       return (await readFileStore()).articles.find((a) => a.slug === slug) ?? null
     }
   }
@@ -189,7 +199,7 @@ export async function deleteArticle(slug: string): Promise<boolean> {
   return true
 }
 
-/** Lightweight liveness read — used by the keep-alive cron so Appwrite's
+/** Lightweight liveness read - used by the keep-alive cron so Appwrite's
     free tier doesn't auto-pause the project for inactivity. */
 export async function ping(): Promise<{
   ok: boolean

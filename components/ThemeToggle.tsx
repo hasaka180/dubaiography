@@ -8,7 +8,7 @@ type Theme = 'light' | 'dark'
 /**
  * Light/dark switch.
  *
- * The initial theme is resolved by the inline script in app/layout.tsx —
+ * The initial theme is resolved by the inline script in app/layout.tsx -
  * before first paint, so there's no flash of the wrong palette. This
  * component only reads what that script decided and lets you change it.
  * An explicit choice is remembered; until you make one, the OS preference
@@ -27,7 +27,7 @@ export default function ThemeToggle() {
     try {
       localStorage.setItem('theme', next)
     } catch {
-      /* private browsing — the choice just won't survive the session */
+      /* private browsing - the choice just won't survive the session */
     }
     setTheme(next)
   }

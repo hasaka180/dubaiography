@@ -7,7 +7,7 @@ import s from './HeroScene.module.css'
 /* ============================================================
    A hand-authored, layered SVG of the city at dusk.
 
-   Every group carries a `data-depth` — the fraction of the
+   Every group carries a `data-depth` - the fraction of the
    scroll/pointer delta it moves by. Low numbers sit far away
    (the sky barely drifts), high numbers are underfoot (the
    near dune slides fast). That single number drives both the
@@ -80,7 +80,7 @@ export default function HeroScene() {
         ease: 'sine.inOut',
       })
 
-      /* ── pointer sway — a slow lean, not a jitter ── */
+      /* ── pointer sway - a slow lean, not a jitter ── */
       const swayX = layers.map((l) => gsap.quickTo(l, 'x', { duration: 1.1, ease: 'power3' }))
       const swayY = layers.map((l) => gsap.quickTo(l, 'y', { duration: 1.1, ease: 'power3' }))
 
@@ -95,7 +95,7 @@ export default function HeroScene() {
       }
       window.addEventListener('pointermove', onPointer, { passive: true })
 
-      /* ── scroll parallax — far layers hang back, near ones race ── */
+      /* ── scroll parallax - far layers hang back, near ones race ── */
       let raf = 0
       const onScroll = () => {
         if (raf) return
@@ -150,7 +150,7 @@ export default function HeroScene() {
               <stop offset="100%" stopColor="#e9a95c" stopOpacity="0.5" />
             </linearGradient>
 
-            {/* Paper grain — the print-litho texture that ties the
+            {/* Paper grain - the print-litho texture that ties the
                 illustration to the editorial pages below. */}
             <filter id="grain" x="0" y="0" width="100%" height="100%">
               <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" stitchTiles="stitch" />
@@ -238,9 +238,9 @@ export default function HeroScene() {
             <path d="M726 662 L740 452 L764 452 L764 662 Z" />
             <path d="M812 662 L812 452 L836 452 L850 662 Z" />
             <path d="M762 662 L770 420 L776 320 L781 238 L785 158 L788 52 L791 158 L795 238 L800 320 L806 420 L814 662 Z" />
-            {/* Burj Al Arab — mast and sail */}
+            {/* Burj Al Arab - mast and sail */}
             <path d="M1004 662 L1004 262 C 1040 302 1070 262 1096 204 L1096 662 Z" />
-            {/* Museum of the Future — a leaning torus on its mound.
+            {/* Museum of the Future - a leaning torus on its mound.
                 The lean and the mound matter: upright and unsupported it
                 just reads as a letter O sitting in the skyline. */}
             <g transform="rotate(-22 548 570)">
@@ -253,7 +253,7 @@ export default function HeroScene() {
             <rect x="1250" y="356" width="146" height="24" />
           </g>
 
-          {/* horizon haze — pushes the city back behind the sand */}
+          {/* horizon haze - pushes the city back behind the sand */}
           <g data-depth="0.24" className={s.layer}>
             <rect x="0" y="470" width="1600" height="200" fill="url(#haze)" />
           </g>
@@ -275,7 +275,7 @@ export default function HeroScene() {
             <use href="#palm" x="1452" y="622" transform="translate(2904 0) scale(-1 1)" />
           </g>
 
-          {/* near dune — the ground you're standing on */}
+          {/* near dune - the ground you're standing on */}
           <g data-depth="0.58" className={s.layer}>
             <path
               d="M0 808 C 300 764 520 840 820 812 C 1100 786 1320 848 1600 806 L1600 900 L0 900 Z"
@@ -302,7 +302,7 @@ export default function HeroScene() {
           </div>
 
           <p className={s.standfirst}>
-            Long-form <mark>reporting on the city that keeps rewriting itself</mark> — its
+            Long-form <mark>reporting on the city that keeps rewriting itself</mark> - its
             architecture, its neighbourhoods, its business of building, and the desert it was
             <mark> drawn on</mark>
           </p>

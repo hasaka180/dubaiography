@@ -9,7 +9,7 @@ import s from './home.module.css'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'Dubaiography — An editorial journal of Dubai',
+  title: 'Dubaiography - An editorial journal of Dubai',
   description:
     'Long-form reporting on Dubai: architecture and urbanism, culture and neighbourhood guides, business and property, travel and desert experience.',
   alternates: { canonical: '/' },
@@ -82,14 +82,14 @@ export default async function HomePage() {
             <p>
               Dubaiography is an independent journal about Dubai and the wider Emirates. It exists
               because most writing about this city falls into one of two piles: property brochures,
-              or lists of brunches. Neither tells you how the place actually works — how a tower
+              or lists of brunches. Neither tells you how the place actually works - how a tower
               gets consented and built in thirty months, why the free-zone map produced the density
               it did, what the wind towers of Al Fahidi were doing before air conditioning, or which
               beach is worth the drive in November.
             </p>
             <p>
               We publish long-form reporting across six evergreen sections, plus the news.
-              Architecture &amp; Urbanism covers how the city was drawn — the towers, the
+              Architecture &amp; Urbanism covers how the city was drawn - the towers, the
               masterplans, the metro and the space between them. Culture &amp; Guides covers
               neighbourhoods, kitchens, galleries and the customs a visitor gets wrong. Business
               &amp; Property handles free zones, freehold, tax and the mechanics of setting
@@ -100,8 +100,8 @@ export default async function HomePage() {
               the city, and explains what they mean.
             </p>
             <p>
-              Every piece is reported first-hand and dated. When the facts change — and in the
-              Emirates regulations move quickly — the article is updated in place rather than
+              Every piece is reported first-hand and dated. When the facts change - and in the
+              Emirates regulations move quickly - the article is updated in place rather than
               quietly patched, because a guide that has gone stale without saying so is worse than
               no guide at all.
             </p>

@@ -11,7 +11,7 @@ export default function SiteHeader() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
-  // The studio is a tool, not part of the publication — no chrome.
+  // The studio is a tool, not part of the publication - no chrome.
   if (pathname?.startsWith('/studio')) return null
 
   const close = () => setOpen(false)

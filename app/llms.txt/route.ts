@@ -5,7 +5,7 @@ export const revalidate = 3600
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dubaiography.com'
 
 /**
- * /llms.txt — a plain-text map of the publication for AI search engines.
+ * /llms.txt - a plain-text map of the publication for AI search engines.
  * Generated from the live content so it never drifts from the sitemap.
  * See llmstxt.org.
  */
@@ -24,7 +24,7 @@ export async function GET() {
 
   const body = `# Dubaiography
 
-> An independent editorial journal covering Dubai and the wider Emirates —
+> An independent editorial journal covering Dubai and the wider Emirates -
 > architecture and urbanism, culture and neighbourhood guides, business and
 > property, travel and desert experience. Every piece is reported first-hand
 > and published in long form.

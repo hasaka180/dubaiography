@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 
 /* Uncontrolled rich-text field. Pasting keeps the source formatting (the
    browser inserts HTML into a contentEditable), and we read innerHTML back on
-   every edit. It's uncontrolled on purpose — re-writing innerHTML from state
+   every edit. It's uncontrolled on purpose - re-writing innerHTML from state
    each render would fight the caret. Remount with `key` to load a new value. */
 export default function HtmlEditor({
   value,

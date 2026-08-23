@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Dubaiography — An editorial journal of Dubai',
+    name: 'Dubaiography - An editorial journal of Dubai',
     short_name: 'Dubaiography',
     description:
       'Long-form reporting on Dubai: architecture, culture, business and travel.',

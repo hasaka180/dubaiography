@@ -8,7 +8,7 @@ import s from './SiteFooter.module.css'
 export default function SiteFooter() {
   const pathname = usePathname()
 
-  // The studio is a tool, not part of the publication — no chrome.
+  // The studio is a tool, not part of the publication - no chrome.
   if (pathname?.startsWith('/studio')) return null
 
   return (

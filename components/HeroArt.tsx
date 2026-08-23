@@ -6,7 +6,7 @@ import s from './HeroArt.module.css'
 
 /* ============================================================
    The hero is a looping skyline film. Depth comes from moving
-   the whole plane — a slow push-in, scroll drift and a lean
+   the whole plane - a slow push-in, scroll drift and a lean
    toward the pointer. The video carries a still poster so the
    frame paints instantly and stays complete if the clip or
    GSAP never load.
@@ -64,7 +64,7 @@ export default function HeroArt() {
         ease: 'sine.inOut',
       })
 
-      /* ── pointer sway — a lean, not a jitter ── */
+      /* ── pointer sway - a lean, not a jitter ── */
       const swayX = gsap.quickTo(plate, 'x', { duration: 1.2, ease: 'power3' })
       const swayY = gsap.quickTo(plate, 'y', { duration: 1.2, ease: 'power3' })
 
@@ -74,7 +74,7 @@ export default function HeroArt() {
       }
       window.addEventListener('pointermove', onPointer, { passive: true })
 
-      /* ── scroll drift — the plate lags the page ── */
+      /* ── scroll drift - the plate lags the page ── */
       let raf = 0
       const onScroll = () => {
         if (raf) return
@@ -114,7 +114,7 @@ export default function HeroArt() {
         </video>
       </div>
 
-      {/* coded overlays — a few nodes, so they animate for free */}
+      {/* coded overlays - a few nodes, so they animate for free */}
       <div className={s.bloom} aria-hidden="true" />
       <div className={s.sweep} aria-hidden="true" />
       <div className={s.shimmer} aria-hidden="true" />
@@ -144,7 +144,7 @@ export default function HeroArt() {
           </div>
 
           <p className={s.standfirst}>
-            Long-form <mark>reporting on the city that keeps rewriting itself</mark> — its
+            Long-form <mark>reporting on the city that keeps rewriting itself</mark> - its
             architecture, its neighbourhoods, its business of building, and the desert it was
             <mark> drawn on</mark>
           </p>

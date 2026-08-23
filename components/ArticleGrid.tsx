@@ -67,7 +67,7 @@ export function LeadArticle({ article }: { article: Article }) {
         <div className={s.kicker}>
           <span className={s.dot} />
           <span className="eyebrow">
-            The lead — {CATEGORY_META[article.category]?.label ?? article.category}
+            The lead - {CATEGORY_META[article.category]?.label ?? article.category}
           </span>
         </div>
 

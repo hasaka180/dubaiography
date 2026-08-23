@@ -1,6 +1,6 @@
 import s from './FaqAccordion.module.css'
 
-/** Native <details> — keyboard-accessible, and the answers stay in the
+/** Native <details> - keyboard-accessible, and the answers stay in the
     DOM for crawlers even while collapsed. */
 export default function FaqAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
   if (!faqs.length) return null

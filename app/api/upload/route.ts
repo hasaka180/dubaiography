@@ -109,7 +109,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: `${PUBLIC_BASE!.replace(/\/$/, '')}/${key}`, key })
   } catch (e) {
     console.error('R2 upload failed:', e)
-    // surfaced for debugging — this route is password-gated
+    // surfaced for debugging - this route is password-gated
     return NextResponse.json({ error: e instanceof Error ? e.message : 'Upload failed' }, { status: 500 })
   }
 }

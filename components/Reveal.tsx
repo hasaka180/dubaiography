@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 
 /**
  * Fades in anything marked `data-reveal` as it enters the viewport.
- * Server components stay server components — they just add the
+ * Server components stay server components - they just add the
  * attribute, and this one observer handles the whole page.
  */
 export default function Reveal() {

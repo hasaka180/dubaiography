@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 
-/** Inertial scrolling — the slow, weighted feel of a gallery site.
+/** Inertial scrolling - the slow, weighted feel of a gallery site.
     Disabled outright for anyone who asked for reduced motion. */
 export default function SmoothScroll() {
   useEffect(() => {

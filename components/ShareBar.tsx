@@ -44,7 +44,7 @@ export default function ShareBar({ url, title, variant = 'inline' }: Props) {
       setCopied(true)
       setTimeout(() => setCopied(false), 1800)
     } catch {
-      /* clipboard blocked — the social links still work */
+      /* clipboard blocked - the social links still work */
     }
   }
 

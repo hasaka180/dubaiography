@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import s from './Dateline.module.css'
 
-/* Dubai is UTC+4 year-round — no daylight saving — but the time is still
+/* Dubai is UTC+4 year-round - no daylight saving - but the time is still
    derived from the reader's clock through the IANA zone rather than a fixed
    offset, so it stays correct wherever the page is opened from. */
 const TZ = 'Asia/Dubai'
@@ -38,7 +38,7 @@ export default function Dateline() {
     return () => clearInterval(id)
   }, [])
 
-  // The studio is a tool, not part of the publication — no chrome.
+  // The studio is a tool, not part of the publication - no chrome.
   if (pathname?.startsWith('/studio')) return null
 
   return (
@@ -46,7 +46,7 @@ export default function Dateline() {
       <div className={`shell ${s.inner}`}>
         <span className={s.place}>
           <i className={s.pin} aria-hidden="true" />
-          {/* The country abbreviates rather than truncates on narrow screens —
+          {/* The country abbreviates rather than truncates on narrow screens -
               clipping the full name mid-word read as a broken string. */}
           Dubai, <span className={s.country}>United Arab Emirates</span>
           <abbr className={s.countryShort} title="United Arab Emirates">

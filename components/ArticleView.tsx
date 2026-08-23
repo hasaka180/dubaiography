@@ -24,7 +24,7 @@ function renderHtmlBlocks(blocks: Block[]): RenderedHtml {
   return map
 }
 
-/** Anchor id for a dedicated heading block — the table of contents links here. */
+/** Anchor id for a dedicated heading block - the table of contents links here. */
 const sectionId = (i: number) => `sec-${i}`
 
 /** Flatten a rendered node back to its plain text, so a markdown heading and
@@ -191,7 +191,7 @@ export default function ArticleView({
           {article.readingTime && <span className="eyebrow">{article.readingTime} min read</span>}
         </div>
 
-        {/* Mobile share — the desktop copy lives in the sticky rail. */}
+        {/* Mobile share - the desktop copy lives in the sticky rail. */}
         <div className={s.shareInline}>
           <ShareBar url={url} title={article.title} />
         </div>
@@ -199,7 +199,7 @@ export default function ArticleView({
 
       {article.cover && (
         <figure className={s.cover} style={{ marginTop: 'clamp(2rem, 5vw, 3.5rem)' }}>
-          {/* The cover is the LCP element — load it eagerly, never lazily. */}
+          {/* The cover is the LCP element - load it eagerly, never lazily. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={article.cover}
@@ -248,7 +248,7 @@ export default function ArticleView({
             {!!article.faqs?.length && <FaqAccordion faqs={article.faqs} />}
           </div>
 
-          {/* Sticky rail — fills the space beside the reading column. Hidden
+          {/* Sticky rail - fills the space beside the reading column. Hidden
               on narrow screens, where share moves under the byline. */}
           <aside className={s.rail}>
             <div className={s.railInner}>

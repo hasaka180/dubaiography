@@ -7,7 +7,7 @@ import s from '../pages.module.css'
 
 export const revalidate = 3600
 
-/* Section URLs are the top of the SEO funnel — pre-render all four. */
+/* Section URLs are the top of the SEO funnel - pre-render all four. */
 export function generateStaticParams() {
   return CATEGORIES.map((category) => ({ category }))
 }
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: meta.description,
     alternates: { canonical: `/${category}` },
     openGraph: {
-      title: `${meta.label} — Dubaiography`,
+      title: `${meta.label} - Dubaiography`,
       description: meta.description,
       url: `/${category}`,
       type: 'website',
@@ -71,14 +71,14 @@ export default async function CategoryPage({ params }: Props) {
         <Link href="/archive">All articles</Link>
       </nav>
 
-      {/* An h2 above the grid keeps the heading order sequential — the cards
+      {/* An h2 above the grid keeps the heading order sequential - the cards
           are h3s, and jumping h1 → h3 trips accessibility/SEO checks. */}
       <h2 className={s.gridHeading} id="latest">
         {articles.length ? `Latest in ${meta.label}` : `${meta.label}`}
       </h2>
       <ArticleGrid articles={articles} />
 
-      {/* Section essay — gives the listing real standing with readers and
+      {/* Section essay - gives the listing real standing with readers and
           search engines rather than being a bare grid of cards. */}
       <section className={s.sectionIntro} aria-labelledby="about-section">
         <h2 className={s.sectionIntroTitle} id="about-section">

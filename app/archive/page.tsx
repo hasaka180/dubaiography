@@ -6,7 +6,7 @@ import s from '../pages.module.css'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'Archive — every article',
+  title: 'Archive - every article',
   description:
     'The complete Dubaiography archive: every piece on Dubai architecture, culture, business and travel, newest first.',
   alternates: { canonical: '/archive' },
@@ -46,8 +46,8 @@ export default async function ArchivePage() {
         </h2>
         <p>
           This is everything Dubaiography has published, newest first, across every section of the
-          journal. Nothing is removed when it ages. Articles are dated, and when the facts change —
-          a regulation, a fee, an opening — the piece is updated in place and the date moves with
+          journal. Nothing is removed when it ages. Articles are dated, and when the facts change -
+          a regulation, a fee, an opening - the piece is updated in place and the date moves with
           it, rather than being quietly patched or deleted.
         </p>
         <p>

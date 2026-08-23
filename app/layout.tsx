@@ -32,8 +32,8 @@ const GA_ENABLED = process.env.NODE_ENV === 'production' && !!GA_ID
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Dubaiography — An editorial journal of Dubai',
-    template: '%s — Dubaiography',
+    default: 'Dubaiography - An editorial journal of Dubai',
+    template: '%s - Dubaiography',
   },
   description:
     'Long-form reporting on Dubai: architecture and urbanism, culture and neighbourhood guides, business and property, travel and desert experience.',
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
     siteName: 'Dubaiography',
     locale: 'en_AE',
     url: SITE_URL,
-    title: 'Dubaiography — An editorial journal of Dubai',
+    title: 'Dubaiography - An editorial journal of Dubai',
     description:
-      'Long-form reporting on the city that keeps rewriting itself — architecture, culture, business and travel.',
+      'Long-form reporting on the city that keeps rewriting itself - architecture, culture, business and travel.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dubaiography — An editorial journal of Dubai',
+    title: 'Dubaiography - An editorial journal of Dubai',
     description: 'Long-form reporting on the city that keeps rewriting itself.',
   },
   robots: {
@@ -83,13 +83,13 @@ export const metadata: Metadata = {
   },
 }
 
-/* Publisher identity — lets Google tie every article back to one masthead. */
+/* Publisher identity - lets Google tie every article back to one masthead. */
 const publisherSchema = {
   '@context': 'https://schema.org',
   '@type': 'NewsMediaOrganization',
   name: 'Dubaiography',
   url: SITE_URL,
-  description: 'An editorial journal of Dubai — architecture, culture, business and travel.',
+  description: 'An editorial journal of Dubai - architecture, culture, business and travel.',
   areaServed: { '@type': 'Place', name: 'Dubai, United Arab Emirates' },
 }
 

@@ -19,7 +19,7 @@ import s from './ArticleBuilder.module.css'
 
 const uid = () => Math.random().toString(36).slice(2, 10)
 
-/** Live feedback for the JSON-LD box — invalid JSON is dropped at render time,
+/** Live feedback for the JSON-LD box - invalid JSON is dropped at render time,
     so say so here rather than letting it fail silently. */
 const jsonLdStatus = (raw?: string) => {
   const v = raw?.trim()
@@ -28,7 +28,7 @@ const jsonLdStatus = (raw?: string) => {
     JSON.parse(v)
     return '✓ Valid JSON.'
   } catch {
-    return '✗ Not valid JSON — it will be skipped until fixed.'
+    return '✗ Not valid JSON - it will be skipped until fixed.'
   }
 }
 
@@ -83,7 +83,7 @@ async function uploadFile(file: File, folder: string): Promise<string> {
       headers: { 'Content-Type': file.type || 'application/octet-stream' },
       body: file,
     })
-    if (!put.ok) throw new Error(`Direct upload failed (${put.status}) — check the bucket's CORS rules`)
+    if (!put.ok) throw new Error(`Direct upload failed (${put.status}) - check the bucket's CORS rules`)
     return data.url as string
   }
 
@@ -195,7 +195,7 @@ export default function ArticleBuilder() {
     current: string,
   ) => {
     const html = e.clipboardData.getData('text/html')
-    if (!html) return // plain text — let the browser paste it as-is
+    if (!html) return // plain text - let the browser paste it as-is
     e.preventDefault()
     const md = turndown.turndown(html).trim()
     const ta = e.currentTarget
@@ -250,7 +250,7 @@ export default function ArticleBuilder() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Save failed')
-      say(`Saved — live at /articles/${draft.slug}`, 'ok')
+      say(`Saved - live at /articles/${draft.slug}`, 'ok')
       setSlugTouched(true)
       loadList()
     } catch (e) {
@@ -362,7 +362,7 @@ export default function ArticleBuilder() {
           />
           <span className={s.hint}>
             The deck under the headline. Doubles as the meta description if you leave the SEO field
-            blank — aim for 140–160 characters.
+            blank - aim for 140–160 characters.
           </span>
         </label>
 
@@ -692,7 +692,7 @@ export default function ArticleBuilder() {
         {/* ── Summary ── */}
         <h2 className={s.groupTitle}>Summary</h2>
         <p className={s.hint} style={{ marginBottom: '1rem' }}>
-          Optional key-takeaway block shown above the body — good for readers who skim and for
+          Optional key-takeaway block shown above the body - good for readers who skim and for
           answer engines that lift a definition.
         </p>
 
@@ -719,7 +719,7 @@ export default function ArticleBuilder() {
         {/* ── FAQs ── */}
         <h2 className={s.groupTitle}>FAQs</h2>
         <p className={s.hint} style={{ marginBottom: '1rem' }}>
-          Rendered as an accordion and as FAQPage structured data — this is what wins the
+          Rendered as an accordion and as FAQPage structured data - this is what wins the
           question-shaped searches.
         </p>
 
@@ -777,8 +777,8 @@ export default function ArticleBuilder() {
           <span className={s.hint}>
             {(draft.metaTitle || draft.title).length} characters
             {(draft.metaTitle || draft.title).length > 70
-              ? ' — over 70, search engines will truncate this. Add a shorter meta title.'
-              : ' — Google truncates around 60.'}{' '}
+              ? ' - over 70, search engines will truncate this. Add a shorter meta title.'
+              : ' - Google truncates around 60.'}{' '}
             Blank falls back to the headline.
           </span>
         </label>
@@ -791,7 +791,7 @@ export default function ArticleBuilder() {
             style={{ minHeight: 80 }}
           />
           <span className={s.hint}>
-            {(draft.metaDescription || draft.standfirst || '').length} characters — aim for 140–160.
+            {(draft.metaDescription || draft.standfirst || '').length} characters - aim for 140–160.
             Blank falls back to the standfirst.
           </span>
         </label>
@@ -808,7 +808,7 @@ export default function ArticleBuilder() {
           />
           <span className={s.hint}>
             {jsonLdStatus(draft.jsonLd)} Emitted in addition to the Article, breadcrumb and FAQ
-            schema this page already generates — paste a full {'{ … }'} object.
+            schema this page already generates - paste a full {'{ … }'} object.
           </span>
         </label>
       </div>
