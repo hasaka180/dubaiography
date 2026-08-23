@@ -51,16 +51,17 @@ export default async function ArchivePage() {
           it, rather than being quietly patched or deleted.
         </p>
         <p>
-          Five evergreen sections divide the city roughly by the question you arrived with.{' '}
+          Six evergreen sections divide the city roughly by the question you arrived with.{' '}
           <strong>Architecture &amp; Urbanism</strong> is for how the place was built and why it
           works the way it does. <strong>Culture &amp; Guides</strong> covers neighbourhoods,
           food, galleries and the customs that a visitor gets wrong.{' '}
           <strong>Business &amp; Property</strong> handles free zones, freehold, tax and the
-          mechanics of setting something up. <strong>Travel &amp; Experience</strong> is the
-          desert, the coast and the trips worth the drive. <strong>Sport</strong> covers the
-          marquee events, the clubs and the business of hosting. Alongside them,{' '}
-          <strong>Breaking News</strong> tracks the openings, rulings and launches reshaping the
-          city as they happen.
+          mechanics of setting something up. <strong>Technology</strong> follows the AI, fintech
+          and startups behind the future-city branding.{' '}
+          <strong>Travel &amp; Experience</strong> is the desert, the coast and the trips worth the
+          drive. <strong>Sport</strong> covers the marquee events, the clubs and the business of
+          hosting. Alongside them, <strong>Breaking News</strong> tracks the openings, rulings and
+          launches reshaping the city as they happen.
         </p>
         <p>
           Every piece is reported first-hand and written long, on the view that a city built in a

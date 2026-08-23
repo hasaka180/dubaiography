@@ -7,7 +7,7 @@
    ============================================================ */
 
 /* ── Editorial verticals ── */
-export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'travel', 'sport'] as const
+export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'technology', 'travel', 'sport'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
@@ -67,6 +67,17 @@ export const CATEGORY_META: Record<
       'Most Dubai travel writing is a list of superlatives — tallest, largest, first. This section is for the trip you would actually enjoy, which usually means understanding the seasons, going where the crowds are not, and leaving the city for at least a day.',
       'The desert is the real attraction and the most misrepresented. We cover the conservation reserves and what separates a genuine one from a dune-bashing operation, when to go for cool nights and clear skies, what an overnight camp is really like, and the wadis and mountain roads of the Hajar range once you cross into the eastern emirates. The coast gets the same treatment: the public beaches worth the drive, the mangroves, the diving, and the boat routes along the creek that cost a couple of dirhams.',
       'We also write practically, because timing decides everything here. The difference between November and July is the difference between a walkable city and one you experience through car windows. We cover the shoulder seasons, Ramadan travel, what is worth booking ahead, how to move around without a car, and the day trips — Abu Dhabi, Hatta, Sharjah, Ras Al Khaimah — that repay the effort. Everything is visited before it is written about.',
+    ],
+  },
+  technology: {
+    label: 'Technology',
+    blurb: 'AI, fintech, mobility and the startups building the city that markets itself as future-first.',
+    description:
+      'Technology in Dubai and the Emirates — AI and fintech, startups and free-zone tech, smart-city projects and the policy shaping a self-styled future city.',
+    intro: [
+      'Dubai sells itself as a city of the future, and it has spent heavily to make the claim stick — a minister for artificial intelligence, blockchain strategies, autonomous-transport targets, and free zones built specifically to import founders. This section covers the technology behind the branding, and is honest about the gap between the two.',
+      'We write about the companies actually being built here: the fintechs working under the DIFC and ADGM regimes, the logistics and mobility startups, the AI teams, the Web3 projects that treated the city as a regulatory haven, and the regional giants — Careem, Talabat and the rest — that proved the market. We cover funding as it happens, who is backing whom, and which "ecosystem" announcements have substance behind them.',
+      'And we cover the state as a technology actor, because here it is one — smart-city infrastructure, the push to put government services on an app, the surveillance and data questions that come with it, and the regulation that decides what a startup can and cannot do. Every piece is reported first-hand and dated, because a funding round and a regulation both age quickly.',
     ],
   },
   sport: {

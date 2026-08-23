@@ -15,6 +15,7 @@ const PALETTE: Record<Category, { bg: string; ink: string }> = {
   culture: { bg: '#125c63', ink: '#f6efe2' },
   architecture: { bg: '#0d1b2a', ink: '#e0a44b' },
   business: { bg: '#3a1b17', ink: '#e8d7b8' },
+  technology: { bg: '#1b2f4a', ink: '#cfe3f2' },
   travel: { bg: '#c8552b', ink: '#f8e9bf' },
   sport: { bg: '#1f5133', ink: '#eef3d8' },
 }
