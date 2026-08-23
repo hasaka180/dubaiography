@@ -16,6 +16,7 @@ const PALETTE: Record<Category, { bg: string; ink: string }> = {
   architecture: { bg: '#0d1b2a', ink: '#e0a44b' },
   business: { bg: '#3a1b17', ink: '#e8d7b8' },
   travel: { bg: '#c8552b', ink: '#f8e9bf' },
+  sport: { bg: '#1f5133', ink: '#eef3d8' },
 }
 
 /** Small deterministic hash → the composition never changes between builds. */

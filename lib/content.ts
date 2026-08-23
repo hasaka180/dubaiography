@@ -7,7 +7,7 @@
    ============================================================ */
 
 /* ── Editorial verticals ── */
-export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'travel'] as const
+export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'travel', 'sport'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
@@ -67,6 +67,17 @@ export const CATEGORY_META: Record<
       'Most Dubai travel writing is a list of superlatives — tallest, largest, first. This section is for the trip you would actually enjoy, which usually means understanding the seasons, going where the crowds are not, and leaving the city for at least a day.',
       'The desert is the real attraction and the most misrepresented. We cover the conservation reserves and what separates a genuine one from a dune-bashing operation, when to go for cool nights and clear skies, what an overnight camp is really like, and the wadis and mountain roads of the Hajar range once you cross into the eastern emirates. The coast gets the same treatment: the public beaches worth the drive, the mangroves, the diving, and the boat routes along the creek that cost a couple of dirhams.',
       'We also write practically, because timing decides everything here. The difference between November and July is the difference between a walkable city and one you experience through car windows. We cover the shoulder seasons, Ramadan travel, what is worth booking ahead, how to move around without a car, and the day trips — Abu Dhabi, Hatta, Sharjah, Ras Al Khaimah — that repay the effort. Everything is visited before it is written about.',
+    ],
+  },
+  sport: {
+    label: 'Sport',
+    blurb: 'The city as a stadium — the marquee events, the clubs and the business of hosting.',
+    description:
+      'Sport in Dubai and the Emirates — the marquee events, the clubs and academies, and the business of a city that buys its way onto the global calendar.',
+    intro: [
+      'Dubai has spent two decades buying its way onto the global sporting calendar, and it shows. In a single season the city hosts a tennis championship, a rugby sevens weekend, a golf desert classic, a Formula weekend up the road in Abu Dhabi, and a cricket schedule that has made the Emirates a neutral home for the sport. This section covers all of it — as events, and as a strategy.',
+      'We write about the fixtures worth planning a trip around and how to actually attend them: when tickets go on sale, where to sit, what a session really costs once you add the extras. We cover the clubs and academies that have grown up around the imported stars, the padel courts that appeared on every rooftop, the running and cycling scene that comes alive the moment the heat breaks, and the grassroots leagues that outlast the headline events.',
+      'And we treat sport as the business it is here — the sponsorships, the stadium economics, the tourism the calendar is built to drive, and the questions that come with a city hosting events faster than it grows the crowds to fill them. Every piece is reported first-hand and dated, because a fixture list and a ticket price both go stale fast.',
     ],
   },
 }

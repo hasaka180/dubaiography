@@ -88,13 +88,14 @@ export default async function HomePage() {
               beach is worth the drive in November.
             </p>
             <p>
-              We publish long-form reporting across four evergreen sections, plus the news.
+              We publish long-form reporting across five evergreen sections, plus the news.
               Architecture &amp; Urbanism covers how the city was drawn — the towers, the
               masterplans, the metro and the space between them. Culture &amp; Guides covers
               neighbourhoods, kitchens, galleries and the customs a visitor gets wrong. Business
               &amp; Property handles free zones, freehold, tax and the mechanics of setting
               something up here. Travel &amp; Experience is the desert, the coast and the trips that
-              repay the effort. Breaking News tracks the openings, rulings and launches reshaping
+              repay the effort. Sport covers the city&apos;s crowded event calendar and the
+              business behind it. Breaking News tracks the openings, rulings and launches reshaping
               the city, and explains what they mean.
             </p>
             <p>
