@@ -34,9 +34,6 @@ export default function SiteHeader() {
               {CATEGORY_META[c].label.split(' ')[0]}
             </Link>
           ))}
-          <Link href="/archive" onClick={close} className={pathname === '/archive' ? s.active : undefined}>
-            Archive
-          </Link>
           <Link href="/about" onClick={close} className={pathname === '/about' ? s.active : undefined}>
             About
           </Link>
