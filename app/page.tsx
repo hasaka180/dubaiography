@@ -97,7 +97,7 @@ export default async function HomePage() {
               future-city branding. Travel &amp; Experience is the desert, the coast and the trips
               that repay the effort. Sport covers the city&apos;s crowded event calendar and the
               business behind it. Breaking News tracks the openings, rulings and launches reshaping
-              the city, and explains what they mean.
+              the city, and International covers the global stories that shape it.
             </p>
             <p>
               Every piece is reported first-hand and dated. When the facts change - and in the

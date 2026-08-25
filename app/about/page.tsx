@@ -39,7 +39,8 @@ export default function AboutPage() {
           <strong>Travel &amp; Experience</strong> is the desert, the coast, and everything worth the
           detour. <strong>Sport</strong> covers the marquee events, the clubs and the business of
           hosting. <strong>Breaking News</strong> follows the openings, rulings and launches
-          reshaping the city, and explains what they mean.
+          reshaping the city, and <strong>International</strong> covers the global stories, markets
+          and moves that shape it.
         </p>
 
         <h2>How we work</h2>

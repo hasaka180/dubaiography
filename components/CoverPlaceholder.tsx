@@ -12,6 +12,7 @@ import { CATEGORY_META, type Category } from '@/lib/content'
 
 const PALETTE: Record<Category, { bg: string; ink: string }> = {
   'breaking-news': { bg: '#7a1f1f', ink: '#f6e3cf' },
+  international: { bg: '#33306a', ink: '#e4e0f4' },
   culture: { bg: '#125c63', ink: '#f6efe2' },
   architecture: { bg: '#0d1b2a', ink: '#e0a44b' },
   business: { bg: '#3a1b17', ink: '#e8d7b8' },

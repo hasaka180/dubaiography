@@ -62,9 +62,9 @@
   text-transform: uppercase;
 }
 
-/* The inline nav now carries seven sections plus Archive and About; below this
+/* The inline nav now carries eight sections plus Archive and About; below this
    width they no longer fit on one line, so fold into the menu button. */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .nav {
     display: none;
   }

@@ -7,7 +7,7 @@
    ============================================================ */
 
 /* ── Editorial verticals ── */
-export const CATEGORIES = ['breaking-news', 'culture', 'architecture', 'business', 'technology', 'travel', 'sport'] as const
+export const CATEGORIES = ['breaking-news', 'international', 'culture', 'architecture', 'business', 'technology', 'travel', 'sport'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
@@ -23,6 +23,17 @@ export const CATEGORY_META: Record<
       'Dubai changes on a timescale most cities reserve for decades. A district opens, a law is rewritten, a tower tops out, a route launches - and the version of the city you knew last month is already out of date. This section tracks the news as it lands, then explains what it actually means.',
       'We cover the developments that move the city: major openings and launches, changes to visa, property and business regulation, transport and infrastructure milestones, and the announcements that reshape neighbourhoods. The aim is not to be first with a headline but to be clear about what a change does - who it affects, what it costs, and what happens next.',
       'Every item is dated and updated in place as a story develops, because breaking news dates faster than anything else on the site. Where a story connects to a longer piece - a guide, an explainer, a piece of reporting - we link across, so the news sits in context rather than in isolation.',
+    ],
+  },
+  international: {
+    label: 'International',
+    blurb: 'The world as it lands in Dubai - the global stories, markets and moves that shape the city.',
+    description:
+      'International news through a Dubai lens - the global politics, markets and moves that shape a city built on being the hub between everywhere else.',
+    intro: [
+      'Dubai sells itself as the point where everywhere else connects, which makes the world\'s news local news here. A sanction, a shipping route, a currency move, a conflict a thousand miles away - each reaches the city through its ports, its banks, its airlines and the two hundred nationalities who live here. This section covers the global stories that actually move Dubai.',
+      'We report the international developments with a stake in the region: the geopolitics of the Gulf and the wider Middle East, the trade and energy flows the economy runs on, the migration and money that follow them, and the diplomacy a small state uses to stay useful to everyone at once. The aim is not a wire feed but an explanation of why a distant event matters here.',
+      'We also cover Dubai\'s own reach outward - the airline that turned a stopover into an empire, the ports operator on four continents, the sovereign funds and the soft-power projects. Every piece is reported and dated, because the map it describes is redrawn constantly.',
     ],
   },
   culture: {

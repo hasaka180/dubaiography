@@ -61,7 +61,8 @@ export default async function ArchivePage() {
           <strong>Travel &amp; Experience</strong> is the desert, the coast and the trips worth the
           drive. <strong>Sport</strong> covers the marquee events, the clubs and the business of
           hosting. Alongside them, <strong>Breaking News</strong> tracks the openings, rulings and
-          launches reshaping the city as they happen.
+          launches reshaping the city as they happen, and <strong>International</strong> covers the
+          global stories that shape it.
         </p>
         <p>
           Every piece is reported first-hand and written long, on the view that a city built in a

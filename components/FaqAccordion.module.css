@@ -64,18 +64,12 @@
   transform: rotate(0deg);
 }
 
+/* Match the article body's reading size (0.8em on every screen). */
 .item p {
   margin: 0;
   padding: 0 0 1.6rem;
   max-width: 60ch;
   color: var(--ink-soft);
-  line-height: 1.7;
-}
-
-/* Match the article body's smaller reading size on phones. */
-@media (max-width: 640px) {
-  .item p {
-    font-size: 0.8em;
-    line-height: 1.62;
-  }
+  font-size: 0.8em;
+  line-height: 1.62;
 }
