@@ -164,6 +164,9 @@ export default function ArticleBuilder() {
   const set = <K extends keyof Article>(key: K, value: Article[K]) =>
     setDraft((d) => ({ ...d, [key]: value }))
 
+  const patchEvent = (patch: Partial<NonNullable<Article['event']>>) =>
+    setDraft((d) => ({ ...d, event: { ...d.event, ...patch } }))
+
   // Slug follows the title until you edit it by hand.
   const setTitle = (title: string) =>
     setDraft((d) => ({ ...d, title, slug: slugTouched ? d.slug : slugify(title) }))
@@ -688,6 +691,162 @@ export default function ArticleBuilder() {
             </button>
           ))}
         </div>
+
+        {/* ── Event details (only when filed under Events) ── */}
+        {draft.category === 'events' && (
+          <>
+            <h2 className={s.groupTitle}>Event details</h2>
+            <p className={s.hint} style={{ marginBottom: '1rem' }}>
+              Drives the Event structured data and the pin on the events map. The event name is the
+              title, its description is the standfirst, and its image is the cover.
+            </p>
+
+            <div className={s.grid2}>
+              <label className={s.field}>
+                <span>Start date</span>
+                <input
+                  type="date"
+                  value={draft.event?.startDate ?? ''}
+                  onChange={(e) => patchEvent({ startDate: e.target.value })}
+                />
+              </label>
+              <label className={s.field}>
+                <span>End date</span>
+                <input
+                  type="date"
+                  value={draft.event?.endDate ?? ''}
+                  onChange={(e) => patchEvent({ endDate: e.target.value })}
+                />
+              </label>
+            </div>
+
+            <div className={s.grid2}>
+              <label className={s.field}>
+                <span>Attendance</span>
+                <select
+                  value={draft.event?.attendanceMode ?? 'offline'}
+                  onChange={(e) =>
+                    patchEvent({ attendanceMode: e.target.value as 'offline' | 'online' | 'mixed' })
+                  }
+                >
+                  <option value="offline">In person</option>
+                  <option value="online">Online</option>
+                  <option value="mixed">Hybrid</option>
+                </select>
+              </label>
+              <label className={s.field}>
+                <span>Status</span>
+                <select
+                  value={draft.event?.status ?? 'scheduled'}
+                  onChange={(e) =>
+                    patchEvent({
+                      status: e.target.value as
+                        | 'scheduled'
+                        | 'cancelled'
+                        | 'postponed'
+                        | 'rescheduled',
+                    })
+                  }
+                >
+                  <option value="scheduled">Scheduled</option>
+                  <option value="rescheduled">Rescheduled</option>
+                  <option value="postponed">Postponed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </label>
+            </div>
+
+            <label className={s.field}>
+              <span>Venue</span>
+              <input
+                type="text"
+                placeholder="Dubai World Trade Centre"
+                value={draft.event?.venue ?? ''}
+                onChange={(e) => patchEvent({ venue: e.target.value })}
+              />
+            </label>
+
+            <label className={s.field}>
+              <span>Address</span>
+              <input
+                type="text"
+                placeholder="Sheikh Zayed Road, Dubai, UAE"
+                value={draft.event?.address ?? ''}
+                onChange={(e) => patchEvent({ address: e.target.value })}
+              />
+            </label>
+
+            <div className={s.grid2}>
+              <label className={s.field}>
+                <span>Latitude</span>
+                <input
+                  type="number"
+                  step="any"
+                  placeholder="25.2285"
+                  value={draft.event?.lat ?? ''}
+                  onChange={(e) =>
+                    patchEvent({ lat: e.target.value === '' ? undefined : Number(e.target.value) })
+                  }
+                />
+                <span className={s.hint}>Right-click the spot in Google Maps → copy the numbers.</span>
+              </label>
+              <label className={s.field}>
+                <span>Longitude</span>
+                <input
+                  type="number"
+                  step="any"
+                  placeholder="55.2867"
+                  value={draft.event?.lng ?? ''}
+                  onChange={(e) =>
+                    patchEvent({ lng: e.target.value === '' ? undefined : Number(e.target.value) })
+                  }
+                />
+              </label>
+            </div>
+
+            <div className={s.grid2}>
+              <label className={s.field}>
+                <span>Organizer</span>
+                <input
+                  type="text"
+                  placeholder="Dubai World Trade Centre"
+                  value={draft.event?.organizer ?? ''}
+                  onChange={(e) => patchEvent({ organizer: e.target.value })}
+                />
+              </label>
+              <label className={s.field}>
+                <span>Performer / headliner</span>
+                <input
+                  type="text"
+                  placeholder="Optional"
+                  value={draft.event?.performer ?? ''}
+                  onChange={(e) => patchEvent({ performer: e.target.value })}
+                />
+              </label>
+            </div>
+
+            <div className={s.grid2}>
+              <label className={s.field}>
+                <span>Ticket URL</span>
+                <input
+                  type="url"
+                  placeholder="https://…"
+                  value={draft.event?.ticketUrl ?? ''}
+                  onChange={(e) => patchEvent({ ticketUrl: e.target.value })}
+                />
+              </label>
+              <label className={s.field}>
+                <span>Price / from</span>
+                <input
+                  type="text"
+                  placeholder="AED 150, or Free"
+                  value={draft.event?.price ?? ''}
+                  onChange={(e) => patchEvent({ price: e.target.value })}
+                />
+              </label>
+            </div>
+          </>
+        )}
 
         {/* ── Summary ── */}
         <h2 className={s.groupTitle}>Summary</h2>

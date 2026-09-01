@@ -19,6 +19,7 @@ const PALETTE: Record<Category, { bg: string; ink: string }> = {
   technology: { bg: '#1b2f4a', ink: '#cfe3f2' },
   travel: { bg: '#c8552b', ink: '#f8e9bf' },
   sport: { bg: '#1f5133', ink: '#eef3d8' },
+  events: { bg: '#5a2140', ink: '#f4dcea' },
 }
 
 /** Small deterministic hash → the composition never changes between builds. */

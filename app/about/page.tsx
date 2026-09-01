@@ -40,7 +40,8 @@ export default function AboutPage() {
           detour. <strong>Sport</strong> covers the marquee events, the clubs and the business of
           hosting. <strong>Breaking News</strong> follows the openings, rulings and launches
           reshaping the city, and <strong>International</strong> covers the global stories, markets
-          and moves that shape it.
+          and moves that shape it. <strong>Events</strong> maps what is on across the city, with
+          dates and locations.
         </p>
 
         <h2>How we work</h2>

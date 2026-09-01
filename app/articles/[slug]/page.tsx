@@ -97,6 +97,56 @@ export default async function ArticlePage({ params }: Props) {
     },
   ]
 
+  /* Event structured data for pieces filed under Events. */
+  const ev = article.category === 'events' ? article.event : undefined
+  if (ev?.startDate) {
+    const ATTEND = {
+      offline: 'https://schema.org/OfflineEventAttendanceMode',
+      online: 'https://schema.org/OnlineEventAttendanceMode',
+      mixed: 'https://schema.org/MixedEventAttendanceMode',
+    } as const
+    const STATUS = {
+      scheduled: 'https://schema.org/EventScheduled',
+      cancelled: 'https://schema.org/EventCancelled',
+      postponed: 'https://schema.org/EventPostponed',
+      rescheduled: 'https://schema.org/EventRescheduled',
+    } as const
+    graph.push({
+      '@type': 'Event',
+      name: article.title,
+      description: article.metaDescription || article.standfirst,
+      image: article.cover ? [article.cover] : undefined,
+      startDate: ev.startDate,
+      endDate: ev.endDate || ev.startDate,
+      eventAttendanceMode: ATTEND[ev.attendanceMode ?? 'offline'],
+      eventStatus: STATUS[ev.status ?? 'scheduled'],
+      url,
+      location: ev.venue
+        ? {
+            '@type': 'Place',
+            name: ev.venue,
+            address: ev.address
+              ? { '@type': 'PostalAddress', name: ev.address }
+              : undefined,
+            geo:
+              ev.lat != null && ev.lng != null
+                ? { '@type': 'GeoCoordinates', latitude: ev.lat, longitude: ev.lng }
+                : undefined,
+          }
+        : undefined,
+      organizer: ev.organizer ? { '@type': 'Organization', name: ev.organizer } : undefined,
+      performer: ev.performer ? { '@type': 'PerformingGroup', name: ev.performer } : undefined,
+      offers: ev.ticketUrl
+        ? {
+            '@type': 'Offer',
+            url: ev.ticketUrl,
+            price: ev.price,
+            availability: 'https://schema.org/InStock',
+          }
+        : undefined,
+    })
+  }
+
   if (article.faqs?.length) {
     graph.push({
       '@type': 'FAQPage',

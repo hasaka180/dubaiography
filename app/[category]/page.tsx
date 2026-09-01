@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ArticleGrid from '@/components/ArticleGrid'
+import EventsShowcase from '@/components/EventsShowcase'
 import { getArticles, isCategory, CATEGORIES, CATEGORY_META } from '@/lib/articles'
 import s from '../pages.module.css'
 
@@ -37,6 +38,12 @@ export default async function CategoryPage({ params }: Props) {
 
   const meta = CATEGORY_META[category]
   const articles = await getArticles({ category })
+
+  // Events are shown on the map, ordered by when they start (soonest first).
+  const isEvents = category === 'events'
+  const events = isEvents
+    ? [...articles].sort((a, b) => (a.event?.startDate ?? '').localeCompare(b.event?.startDate ?? ''))
+    : []
 
   const breadcrumbs = {
     '@context': 'https://schema.org',
@@ -74,9 +81,15 @@ export default async function CategoryPage({ params }: Props) {
       {/* An h2 above the grid keeps the heading order sequential - the cards
           are h3s, and jumping h1 → h3 trips accessibility/SEO checks. */}
       <h2 className={s.gridHeading} id="latest">
-        {articles.length ? `Latest in ${meta.label}` : `${meta.label}`}
+        {isEvents
+          ? articles.length
+            ? 'On the map'
+            : 'Events'
+          : articles.length
+            ? `Latest in ${meta.label}`
+            : `${meta.label}`}
       </h2>
-      <ArticleGrid articles={articles} />
+      {isEvents ? <EventsShowcase events={events} /> : <ArticleGrid articles={articles} />}
 
       {/* Section essay - gives the listing real standing with readers and
           search engines rather than being a bare grid of cards. */}

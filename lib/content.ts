@@ -7,7 +7,7 @@
    ============================================================ */
 
 /* ── Editorial verticals ── */
-export const CATEGORIES = ['breaking-news', 'international', 'culture', 'architecture', 'business', 'technology', 'travel', 'sport'] as const
+export const CATEGORIES = ['breaking-news', 'international', 'culture', 'architecture', 'business', 'technology', 'travel', 'sport', 'events'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const CATEGORY_META: Record<
@@ -102,6 +102,34 @@ export const CATEGORY_META: Record<
       'And we treat sport as the business it is here - the sponsorships, the stadium economics, the tourism the calendar is built to drive, and the questions that come with a city hosting events faster than it grows the crowds to fill them. Every piece is reported first-hand and dated, because a fixture list and a ticket price both go stale fast.',
     ],
   },
+  events: {
+    label: 'Events',
+    blurb: 'What is on and where - the exhibitions, summits and festivals, mapped across the city.',
+    description:
+      'A live map of what is on in Dubai - the exhibitions, summits, festivals and shows worth the trip, with dates, venues and locations across the city.',
+    intro: [
+      'Dubai runs on its calendar. In a single season the city hosts design weeks and art fairs, government summits and trade shows, film festivals and food weeks, each pulling a different crowd into a different corner of the map. This section is the guide to what is actually on, and where.',
+      'Every event carries its dates, its venue and its place on the city map, so you can see at a glance what is happening this month and how far apart two things you want to attend really are. We add the practical detail the official listings skip: who it is really for, whether it is worth the ticket, and how to get there.',
+      'Listings are dated and kept current, because a festival that has moved venue or a summit that has changed its dates is worse than no listing at all.',
+    ],
+  },
+}
+
+/* ── Event details, shown when a piece is filed under Events. Maps to
+   schema.org/Event, and the coordinates place it on the events map. ── */
+export type EventDetails = {
+  startDate?: string
+  endDate?: string
+  attendanceMode?: 'offline' | 'online' | 'mixed'
+  status?: 'scheduled' | 'cancelled' | 'postponed' | 'rescheduled'
+  venue?: string
+  address?: string
+  lat?: number
+  lng?: number
+  organizer?: string
+  performer?: string
+  ticketUrl?: string
+  price?: string
 }
 
 export const isCategory = (v: unknown): v is Category =>
@@ -143,6 +171,8 @@ export interface Article {
   /** Raw JSON-LD pasted in the studio, emitted alongside the generated graph.
       Ignored if it isn't valid JSON, so a typo can't break the page. */
   jsonLd?: string
+  /** Event details, when filed under Events - drives the Event schema and the map. */
+  event?: EventDetails
   /** Rendered as an FAQPage schema block + accordion. Strong for long-tail search. */
   faqs?: { q: string; a: string }[]
   /** Set false to keep an article out of listings, sitemap and search. */

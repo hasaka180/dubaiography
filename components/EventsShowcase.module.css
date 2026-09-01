@@ -1,0 +1,154 @@
+.wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ── the list ── */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  border-top: 1px solid var(--rule);
+  transition: opacity 0.2s ease;
+}
+
+.item:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.list:hover .item:not(.active) {
+  opacity: 0.5;
+}
+
+.itemHead {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem) 0;
+}
+
+.date {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.1;
+  margin-top: 0.5rem;
+  color: var(--ink);
+}
+
+.venue {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+}
+
+.detail {
+  padding-bottom: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+.blurb {
+  margin: 0 0 1rem;
+  max-width: 46ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.readMore,
+.tickets {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.readMore:hover {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.tickets {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tickets:hover {
+  filter: brightness(1.08);
+}
+
+/* ── the map ── */
+
+.mapCol {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.mapBox,
+.mapPending {
+  height: min(72vh, 640px);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0d1b2a;
+  border: 1px solid var(--rule);
+}
+
+.mapPending {
+  display: block;
+}
+
+.empty {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-faint);
+}
+
+@media (max-width: 860px) {
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+  /* Map first on phones, so the geography frames the list below it. */
+  .mapCol {
+    position: static;
+    order: -1;
+  }
+  .mapBox,
+  .mapPending {
+    height: 52vh;
+  }
+}

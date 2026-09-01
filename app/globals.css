@@ -233,3 +233,36 @@ p {
 .skip-link:focus {
   left: 0;
 }
+
+/* ── Leaflet (events map) — dark theme for the global control classes ── */
+.leaflet-container {
+  background: #0d1b2a;
+  font: inherit;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #14110f;
+  color: #ede7dc;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+.leaflet-popup-content {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin: 0.5rem 0.85rem;
+}
+.leaflet-bar a {
+  background: #1c1917;
+  color: #ece7de;
+  border-bottom-color: #332e29;
+}
+.leaflet-bar a:hover {
+  background: #26221e;
+}
+.leaflet-control-attribution {
+  background: rgba(13, 27, 42, 0.7) !important;
+  color: #8d867d !important;
+  font-size: 10px;
+}
+.leaflet-control-attribution a {
+  color: #b0a99f !important;
+}
