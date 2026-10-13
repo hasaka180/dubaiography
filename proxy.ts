@@ -4,7 +4,8 @@ import type { NextRequest } from 'next/server'
 /**
  * Password-gate the article studio.
  * - /studio (the editor UI) always requires the password.
- * - /api/articles write requests (POST/DELETE) require it too.
+ * - /api/articles write requests (POST/DELETE) require it too, as do
+ *   /api/upload and the one-off /api/migrate.
  * - GET /api/articles stays public so the site can read content - except
  *   ?drafts, the studio's listing, which would otherwise expose every draft.
  *
@@ -16,8 +17,8 @@ export default function proxy(req: NextRequest) {
   const isStudio = pathname.startsWith('/studio')
   const isWrite = pathname.startsWith('/api/articles') && req.method !== 'GET'
   const isDraftList = pathname === '/api/articles' && req.nextUrl.searchParams.has('drafts')
-  const isUpload = pathname.startsWith('/api/upload')
-  if (!isStudio && !isWrite && !isDraftList && !isUpload) return NextResponse.next()
+  const isAdmin = pathname.startsWith('/api/upload') || pathname.startsWith('/api/migrate')
+  if (!isStudio && !isWrite && !isDraftList && !isAdmin) return NextResponse.next()
 
   const password = process.env.STUDIO_PASSWORD
   if (!password) {
@@ -45,5 +46,5 @@ export default function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/studio/:path*', '/api/articles', '/api/articles/:path*', '/api/upload'],
+  matcher: ['/studio/:path*', '/api/articles', '/api/articles/:path*', '/api/upload', '/api/migrate'],
 }

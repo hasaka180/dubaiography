@@ -45,14 +45,11 @@ buckets.
 Until the first save, the site serves `data/articles.json`; the first save from
 the studio writes that issue plus the new article to R2.
 
-Articles from the old Appwrite backend are copied over with:
-
-```bash
-node --env-file=.env.local scripts/migrate-appwrite-to-r2.mjs
-```
-
-It writes a local backup to `appwrite-export.json`, then merges into whatever
-is already in R2, keeping the most recently updated copy of each slug.
+Articles from the old Appwrite backend are copied over by a one-off,
+password-gated route that runs on Vercel, where the `APPWRITE_*` secrets live:
+open `/api/migrate` to preview (and save as a backup), then
+`/api/migrate?run=1` to merge into R2, keeping the most recently updated copy
+of each slug. Delete the route afterwards.
 
 ### 2. Media uploads
 

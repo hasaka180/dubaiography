@@ -145,3 +145,21 @@ export async function deleteArticle(slug: string): Promise<boolean> {
     return rest.length < all.length ? rest : null
   })
 }
+
+/** Merge in articles from elsewhere (the one-off Appwrite import). Per slug,
+    the copy updated last wins, so nothing saved since is overwritten.
+    Returns the size of the merged store. */
+export async function importArticles(incoming: Article[]): Promise<number> {
+  const updatedAt = (a: Article) => Date.parse(a.updated ?? '') || 0
+  let total = 0
+  await mutate((all) => {
+    const bySlug = new Map(all.map((a) => [a.slug, a]))
+    for (const a of incoming) {
+      const current = bySlug.get(a.slug)
+      if (!current || updatedAt(a) > updatedAt(current)) bySlug.set(a.slug, a)
+    }
+    total = bySlug.size
+    return [...bySlug.values()]
+  })
+  return total
+}
