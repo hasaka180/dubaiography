@@ -1,8 +1,9 @@
 import 'server-only'
 import fs from 'fs/promises'
 import path from 'path'
-import { createHash } from 'crypto'
-import { Client, TablesDB, Query } from 'node-appwrite'
+import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
+import { unstable_cache, revalidateTag } from 'next/cache'
+import { R2, r2 } from './r2'
 import { byDateDesc, type Article, type Category } from './content'
 
 /* Re-exported so server components can pull the model and the storage
@@ -13,56 +14,23 @@ type Store = { articles: Article[] }
 
 const FILE = path.join(process.cwd(), 'data', 'articles.json')
 
-/* ── Storage: Appwrite TablesDB (rows) when configured, else local JSON file ── */
-const AW = {
-  endpoint: process.env.APPWRITE_ENDPOINT,
-  project: process.env.APPWRITE_PROJECT_ID,
-  apiKey: process.env.APPWRITE_API_KEY,
-  db: process.env.APPWRITE_DATABASE_ID,
-  col: process.env.APPWRITE_COLLECTION_ID,
-}
+/* ── Storage: one JSON object in Cloudflare R2 when configured, else local JSON file ──
+   The whole issue is a single object, in the same { articles: [...] } shape as
+   data/articles.json: one GET serves every listing, and a save rewrites it.
+   That suits a small journal with one editor. There is no locking, so two
+   saves landing at the same instant would race (last write wins). */
+const KEY = 'content/articles.json'
+const TAG = 'articles'
 
-const tables =
-  AW.endpoint && AW.project && AW.apiKey && AW.db && AW.col
-    ? new TablesDB(new Client().setEndpoint(AW.endpoint).setProject(AW.project).setKey(AW.apiKey))
-    : null
+const useR2 = Boolean(R2.endpoint && R2.accessKey && R2.secretKey && R2.contentBucket)
 
-/* House style: no em-dash. Normalising the serialized article once here strips
+/* House style: no em-dash. Normalising the serialized store once here strips
    it from every field at once (title, standfirst, blocks, faqs, meta…) for both
    stored and already-saved content, without touching JSON structure — the
    em-dash only ever appears inside string values. */
 const stripEmDash = (s: string) => s.replace(/ — /g, ' - ').replace(/—/g, '-')
 
-const parseRow = (row: Record<string, unknown>): Article =>
-  JSON.parse(stripEmDash((row.data as string) ?? '{}')) as Article
-
-const toRow = (a: Article) => ({
-  slug: a.slug,
-  title: stripEmDash(a.title),
-  data: stripEmDash(JSON.stringify(a)),
-})
-
-/* Appwrite row ids are capped at 36 chars ([A-Za-z0-9._-], no leading special).
-   The slug is the row id, so a long headline blows past the limit. Short,
-   already-valid slugs pass through unchanged - so existing rows still resolve -
-   and anything longer is mapped deterministically to a 36-char id (readable
-   head + hash of the full slug, so it stays unique and stable across
-   read/write/delete). The full slug still lives in the `slug` column and in
-   the article data, so URLs are unaffected. */
-const AW_ID_MAX = 36
-function rowIdFor(slug: string): string {
-  if (slug.length <= AW_ID_MAX && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(slug)) return slug
-  const hash = createHash('sha1').update(slug).digest('hex').slice(0, 8)
-  const head = slug
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+/, '')
-    .slice(0, AW_ID_MAX - 9)
-    .replace(/-+$/, '')
-  return `${head || 'a'}-${hash}`
-}
-
-/* ── file fallback (local dev / CMS outage) ── */
+/* ── file fallback (local dev / R2 outage) ── */
 async function readFileStore(): Promise<Store> {
   try {
     return JSON.parse(stripEmDash(await fs.readFile(FILE, 'utf-8'))) as Store
@@ -76,51 +44,67 @@ async function writeFileStore(store: Store): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(store, null, 2), 'utf-8')
 }
 
-async function readAll(): Promise<Article[]> {
-  if (tables) {
-    try {
-      const res = await tables.listRows({
-        databaseId: AW.db!,
-        tableId: AW.col!,
-        queries: [Query.limit(500)],
-      })
-      return res.rows.map((r) => parseRow(r as Record<string, unknown>))
-    } catch (e) {
-      // Appwrite unreachable/misconfigured - don't crash the build or the API;
-      // fall back to the bundled seed file so the site stays readable.
-      console.error('Appwrite read failed, falling back to data/articles.json:', e)
-      return (await readFileStore()).articles
-    }
+/* ── R2 ── */
+
+/** The stored issue, or null if nothing has been saved to R2 yet. Any other
+    failure throws, so callers can tell "empty" from "unreachable". */
+async function readR2Store(): Promise<Store | null> {
+  try {
+    const res = await r2().send(new GetObjectCommand({ Bucket: R2.contentBucket, Key: KEY }))
+    return JSON.parse(stripEmDash(await res.Body!.transformToString())) as Store
+  } catch (e) {
+    if ((e as Error).name === 'NoSuchKey') return null
+    throw e
   }
-  return (await readFileStore()).articles
 }
 
-/* Seed from data/articles.json the first time the store is empty, so a fresh
-   Appwrite project comes up with the demo issue already in place. */
-let seedPromise: Promise<void> | null = null
+async function writeR2Store(store: Store): Promise<void> {
+  await r2().send(
+    new PutObjectCommand({
+      Bucket: R2.contentBucket,
+      Key: KEY,
+      Body: stripEmDash(JSON.stringify(store)),
+      ContentType: 'application/json; charset=utf-8',
+    }),
+  )
+}
 
-/** Why the last seed attempt failed, if it did. Surfaced by ping() - a silent
-    seed failure used to present as an inexplicably empty site. */
-let lastSeedError: string | null = null
+/* Every page, the sitemap and the API read through this one cache entry, so R2
+   sees about one GET an hour however much traffic - or bot probing of made-up
+   slugs - the site gets. Saves expire it immediately. A failed read throws out
+   of the cached function, so an outage is never cached, only real answers.
+   Next won't cache an entry over 2MB (it logs a warning); the site still works
+   then, it just reads R2 on every render. */
+const readR2Cached = unstable_cache(readR2Store, ['articles-r2'], { revalidate: 3600, tags: [TAG] })
 
-async function ensureSeeded(): Promise<void> {
-  if (!tables) return
-  if (!seedPromise) {
-    seedPromise = (async () => {
-      try {
-        if ((await readAll()).length) return
-        for (const a of (await readFileStore()).articles) {
-          await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(a.slug), data: toRow(a) })
-        }
-        lastSeedError = null
-      } catch (e) {
-        lastSeedError = e instanceof Error ? e.message : String(e)
-        console.error('Appwrite seed failed:', lastSeedError)
-        seedPromise = null // allow retry next request
-      }
-    })()
+async function readAll(): Promise<Article[]> {
+  if (!useR2) return (await readFileStore()).articles
+  try {
+    // Nothing saved to R2 yet - serve the bundled issue until the first save writes one.
+    return ((await readR2Cached()) ?? (await readFileStore())).articles
+  } catch (e) {
+    // R2 unreachable/misconfigured - don't crash the build or the API;
+    // fall back to the bundled seed file so the site stays readable.
+    console.error('R2 read failed, falling back to data/articles.json:', e)
+    return (await readFileStore()).articles
   }
-  return seedPromise
+}
+
+/** Read-modify-write. `change` returns the new list, or null to leave the
+    store untouched. Reads the live object, never the cache - and never falls
+    back to the seed file on error, which would overwrite the stored issue. */
+async function mutate(change: (articles: Article[]) => Article[] | null): Promise<boolean> {
+  if (useR2) {
+    const next = change(((await readR2Store()) ?? (await readFileStore())).articles)
+    if (!next) return false
+    await writeR2Store({ articles: next })
+    revalidateTag(TAG, { expire: 0 })
+    return true
+  }
+  const next = change((await readFileStore()).articles)
+  if (!next) return false
+  await writeFileStore({ articles: next })
+  return true
 }
 
 /* ── public API ── */
@@ -129,36 +113,14 @@ async function ensureSeeded(): Promise<void> {
 export async function getArticles(
   opts: { category?: Category; includeDrafts?: boolean } = {},
 ): Promise<Article[]> {
-  await ensureSeeded()
   let all = await readAll()
-
-  /* Appwrite answered, but with nothing - and seeding it failed. Without this
-     the listings go blank while individual articles still resolve from the
-     bundled file, which reads as a broken site rather than a misconfigured
-     one. Fall back to the same file the rest of the app falls back to. */
-  if (!all.length && lastSeedError) all = (await readFileStore()).articles
-
   if (!opts.includeDrafts) all = all.filter((a) => a.published !== false)
   if (opts.category) all = all.filter((a) => a.category === opts.category)
-  return all.sort(byDateDesc)
+  return [...all].sort(byDateDesc)
 }
 
 export async function getArticle(slug: string): Promise<Article | null> {
-  if (tables) {
-    await ensureSeeded()
-    try {
-      return parseRow(
-        (await tables.getRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(slug) })) as Record<
-          string,
-          unknown
-        >,
-      )
-    } catch {
-      // row missing, or Appwrite down - fall back to the seed file before giving up
-      return (await readFileStore()).articles.find((a) => a.slug === slug) ?? null
-    }
-  }
-  return (await readFileStore()).articles.find((a) => a.slug === slug) ?? null
+  return (await readAll()).find((a) => a.slug === slug) ?? null
 }
 
 /** Up to `limit` other published articles, preferring the same category. */
@@ -170,63 +132,16 @@ export async function getRelated(slug: string, category: Category, limit = 3): P
 
 export async function upsertArticle(article: Article): Promise<Article> {
   const item = { ...article, updated: new Date().toISOString() }
-  if (tables) {
-    await tables.upsertRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(item.slug), data: toRow(item) })
-    return item
-  }
-  const store = await readFileStore()
-  const idx = store.articles.findIndex((a) => a.slug === item.slug)
-  if (idx >= 0) store.articles[idx] = item
-  else store.articles.push(item)
-  await writeFileStore(store)
+  await mutate((all) => {
+    const idx = all.findIndex((a) => a.slug === item.slug)
+    return idx >= 0 ? all.map((a, i) => (i === idx ? item : a)) : [...all, item]
+  })
   return item
 }
 
 export async function deleteArticle(slug: string): Promise<boolean> {
-  if (tables) {
-    try {
-      await tables.deleteRow({ databaseId: AW.db!, tableId: AW.col!, rowId: rowIdFor(slug) })
-      return true
-    } catch {
-      return false
-    }
-  }
-  const store = await readFileStore()
-  const before = store.articles.length
-  store.articles = store.articles.filter((a) => a.slug !== slug)
-  if (store.articles.length === before) return false
-  await writeFileStore(store)
-  return true
-}
-
-/** Lightweight liveness read - used by the keep-alive cron so Appwrite's
-    free tier doesn't auto-pause the project for inactivity. */
-export async function ping(): Promise<{
-  ok: boolean
-  total?: number
-  storage?: 'appwrite' | 'file'
-  seedError?: string
-  error?: string
-}> {
-  if (!tables) {
-    return { ok: true, storage: 'file', total: (await readFileStore()).articles.length }
-  }
-  try {
-    const res = await tables.listRows({
-      databaseId: AW.db!,
-      tableId: AW.col!,
-      queries: [Query.limit(1)],
-    })
-    // An empty table is only healthy if seeding actually succeeded; report the
-    // seed failure alongside it so "ok, 0 rows" can't be mistaken for fine.
-    if (!res.total) await ensureSeeded()
-    return {
-      ok: true,
-      storage: 'appwrite',
-      total: res.total,
-      ...(lastSeedError ? { seedError: lastSeedError } : {}),
-    }
-  } catch (e) {
-    return { ok: false, storage: 'appwrite', error: e instanceof Error ? e.message : String(e) }
-  }
+  return mutate((all) => {
+    const rest = all.filter((a) => a.slug !== slug)
+    return rest.length < all.length ? rest : null
+  })
 }

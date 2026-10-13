@@ -1,7 +1,7 @@
 /* ============================================================
    Shared content model - types, taxonomy and pure helpers.
 
-   This module is deliberately free of `fs` and `node-appwrite`
+   This module is deliberately free of `fs` and the R2 client
    so client components (the studio, the header) can import it.
    Storage lives in lib/articles.ts, which is server-only.
    ============================================================ */

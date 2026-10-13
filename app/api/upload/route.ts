@@ -1,20 +1,18 @@
 import { NextResponse } from 'next/server'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { R2, r2 } from '@/lib/r2'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-// Accept a few common env var names so it works with the values copied
-// straight off Cloudflare's R2 "S3 API" token screen.
-const ENDPOINT =
-  process.env.R2_S3_API_ENDPOINT ||
-  process.env.R2_ENDPOINT ||
-  (process.env.R2_ACCOUNT_ID ? `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com` : undefined)
-const ACCESS_KEY = process.env.R2_ACCESS_KEY_ID || process.env.ACCESS_KEY_ID
-const SECRET_KEY = process.env.R2_SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY
-const BUCKET = process.env.R2_BUCKET
-const PUBLIC_BASE = process.env.R2_PUBLIC_BASE_URL
+const {
+  endpoint: ENDPOINT,
+  accessKey: ACCESS_KEY,
+  secretKey: SECRET_KEY,
+  bucket: BUCKET,
+  publicBase: PUBLIC_BASE,
+} = R2
 
 const FOLDERS = new Set(['covers', 'articles', 'misc'])
 
@@ -28,13 +26,6 @@ const keyFor = (folderReq: unknown, filename: unknown) => {
     .replace(/[^a-z0-9]/g, '')
   return `${folder}/${uid()}.${ext}`
 }
-
-const s3 = () =>
-  new S3Client({
-    region: 'auto',
-    endpoint: ENDPOINT,
-    credentials: { accessKeyId: ACCESS_KEY!, secretAccessKey: SECRET_KEY! },
-  })
 
 const isConfigured = () => ENDPOINT && ACCESS_KEY && SECRET_KEY && BUCKET && PUBLIC_BASE
 
@@ -66,7 +57,7 @@ async function presign(req: Request) {
     }
     const key = keyFor(folder, filename)
     const uploadUrl = await getSignedUrl(
-      s3(),
+      r2(),
       new PutObjectCommand({
         Bucket: BUCKET,
         Key: key,
@@ -97,7 +88,7 @@ export async function POST(req: Request) {
     }
 
     const key = keyFor(form.get('folder'), file.name)
-    await s3().send(
+    await r2().send(
       new PutObjectCommand({
         Bucket: BUCKET,
         Key: key,

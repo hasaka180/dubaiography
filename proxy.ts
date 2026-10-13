@@ -5,7 +5,8 @@ import type { NextRequest } from 'next/server'
  * Password-gate the article studio.
  * - /studio (the editor UI) always requires the password.
  * - /api/articles write requests (POST/DELETE) require it too.
- * - GET /api/articles stays public so the site can read content.
+ * - GET /api/articles stays public so the site can read content - except
+ *   ?drafts, the studio's listing, which would otherwise expose every draft.
  *
  * Set STUDIO_PASSWORD in your environment (e.g. Vercel → Project → Settings →
  * Environment Variables). Locally, if it's unset the gate is skipped.
@@ -14,8 +15,9 @@ export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
   const isStudio = pathname.startsWith('/studio')
   const isWrite = pathname.startsWith('/api/articles') && req.method !== 'GET'
+  const isDraftList = pathname === '/api/articles' && req.nextUrl.searchParams.has('drafts')
   const isUpload = pathname.startsWith('/api/upload')
-  if (!isStudio && !isWrite && !isUpload) return NextResponse.next()
+  if (!isStudio && !isWrite && !isDraftList && !isUpload) return NextResponse.next()
 
   const password = process.env.STUDIO_PASSWORD
   if (!password) {

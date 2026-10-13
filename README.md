@@ -2,7 +2,7 @@
 
 An editorial journal about Dubai — architecture, culture, business and travel — built for organic search.
 
-Next.js 16 (App Router) · React 19 · Appwrite (content) · Cloudflare R2 (media) · Vercel.
+Next.js 16 (App Router) · React 19 · Cloudflare R2 (content and media) · Vercel.
 
 ---
 
@@ -28,31 +28,35 @@ and the studio is open locally. That is enough to develop against.
 
 ## The backend
 
-Content lives in one Appwrite table, one row per article, with the full article
-JSON in a `data` column. If Appwrite is unreachable — or simply not configured —
-every read falls back to `data/articles.json`, so the site never hard-fails
-because the CMS is down.
+Content lives in one JSON object in Cloudflare R2 (`content/articles.json`),
+in the same `{ "articles": [...] }` shape as `data/articles.json`. Every page
+reads it through a single Next.js data-cache entry, so R2 sees about one read
+an hour; a save from the studio expires that cache immediately. If R2 is
+unreachable - or simply not configured - every read falls back to
+`data/articles.json`, so the site never hard-fails because storage is down.
 
-### 1. Appwrite
+### 1. Article storage
 
-Create a project, then a database, then a **table** with three string columns:
+Create a **private** R2 bucket for content and set `R2_CONTENT_BUCKET`. (It
+falls back to the media bucket, but that bucket is public, so drafts would be
+readable at its r2.dev URL.) The API token below needs read/write on both
+buckets.
 
-| Column | Type | Size | Required |
-| --- | --- | --- | --- |
-| `slug` | String | 255 | yes |
-| `title` | String | 512 | yes |
-| `data` | String | 1000000 | yes |
+Until the first save, the site serves `data/articles.json`; the first save from
+the studio writes that issue plus the new article to R2.
 
-Create an **API key** with `databases.read` and `databases.write`, then fill in
-`APPWRITE_*` in `.env.local`. On first request the table is seeded from
-`data/articles.json` if it is empty.
+Articles from the old Appwrite backend are copied over with:
 
-Row IDs are the article slug, so a save is an upsert and renaming a slug creates
-a new article rather than moving the old one.
+```bash
+node --env-file=.env.local scripts/migrate-appwrite-to-r2.mjs
+```
 
-### 2. Cloudflare R2
+It writes a local backup to `appwrite-export.json`, then merges into whatever
+is already in R2, keeping the most recently updated copy of each slug.
 
-Create a bucket, enable public access, and create an S3 API token. Fill in the
+### 2. Media uploads
+
+Create a second bucket, enable public access, and create an S3 API token. Fill in the
 `R2_*` variables. Uploads are sorted into `covers/`, `articles/` and `misc/`.
 
 Files under 4 MB go through the API route; larger ones are presigned and sent
@@ -115,6 +119,4 @@ complete and legible — it just doesn't move. Motion is skipped entirely under
 
 ## Deploying
 
-Push to Vercel and set the same environment variables. `vercel.json` registers a
-daily cron against `/api/keepalive` so Appwrite's free tier doesn't pause the
-project for inactivity.
+Push to Vercel and set the same environment variables.
