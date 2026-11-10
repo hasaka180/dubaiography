@@ -174,7 +174,7 @@
 /* ── summary / key takeaway ── */
 
 .summary {
-  max-width: 84ch;
+  max-width: none;
   margin: clamp(2.5rem, 6vw, 4rem) 0 0;
   padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2.25rem);
   border-left: 3px solid var(--accent);
@@ -205,11 +205,10 @@
 
 /* The column stays ranged left, on the same margin as the headline and
    byline above it — centring it here collides with the byline row.
-   Measure widened past the default so the text reaches further across the
-   page rather than sitting in a narrow strip with dead space on the right;
-   a slightly larger size keeps the line count from ballooning. */
+   It fills the main column (up to the rail) rather than sitting in a narrow
+   strip with dead space on the right. */
 .body {
-  max-width: 84ch;
+  max-width: none;
   margin: clamp(2.5rem, 6vw, 4rem) 0 0;
   font-size: 0.8em;
   line-height: 1.62;
