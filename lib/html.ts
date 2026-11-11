@@ -1,6 +1,7 @@
 import 'server-only'
 import sanitizeHtml from 'sanitize-html'
 import { slugify } from './content'
+import { embedLinkParagraphs } from './embed'
 
 /* Rendering pasted HTML is the security boundary: strip anything that could
    execute, keep the editorial tags the article styles already cover. */
@@ -52,7 +53,9 @@ export type HtmlHeading = { id: string; label: string; level: number }
     table of contents can link to them. Returns the cleaned html and its
     headings, both derived from the same slug. */
 export function renderHtmlBlock(raw: string): { html: string; headings: HtmlHeading[] } {
-  const clean = sanitizeHtml(raw, OPTIONS)
+  // Sanitise first, then turn lone post links into embeds (the frames this
+  // adds are built here from a fixed list of hosts, never taken from the paste).
+  const clean = embedLinkParagraphs(sanitizeHtml(raw, OPTIONS))
   const headings: HtmlHeading[] = []
   const html = clean.replace(/<(h[23])([^>]*)>([\s\S]*?)<\/\1>/gi, (_m, tag, attrs, inner) => {
     const label = stripTags(inner)
