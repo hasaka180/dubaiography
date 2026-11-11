@@ -4,6 +4,7 @@ import ReactMarkdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import FaqAccordion from './FaqAccordion'
 import ShareBar from './ShareBar'
+import EmbedResize from './EmbedResize'
 import { ArticleCard } from './ArticleGrid'
 import { CATEGORY_META, formatDate, slugify, type Article, type Block } from '@/lib/content'
 import { renderHtmlBlock, type HtmlHeading } from '@/lib/html'
@@ -167,8 +168,11 @@ export default function ArticleView({
   // Section headings, for the sticky "In this guide" table of contents.
   const toc = buildToc(article.blocks, rendered)
 
+  const hasEmbeds = [...rendered.values()].some((r) => r.html.includes('<iframe'))
+
   return (
     <article className={s.article}>
+      {hasEmbeds && <EmbedResize />}
       <div className="shell">
         <div className={s.head}>
           <span className="eyebrow">

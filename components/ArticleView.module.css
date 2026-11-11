@@ -243,6 +243,25 @@
   scroll-margin-top: 6rem;
 }
 
+/* Embedded X / Instagram posts and YouTube / Vimeo videos (from Blog Studio). */
+.block :global(figure.embed) {
+  margin: 2em auto;
+  max-width: 550px;
+}
+.block :global(figure.embed iframe) {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+}
+.block :global(figure.embed-video) {
+  max-width: none;
+}
+.block :global(figure.embed-video iframe) {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
 .block :global(table) {
   width: 100%;
   border-collapse: collapse;

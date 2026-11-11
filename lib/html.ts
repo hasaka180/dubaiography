@@ -14,14 +14,26 @@ const OPTIONS: sanitizeHtml.IOptions = {
     'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
     'figure', 'figcaption', 'img',
     'code', 'pre', 'span',
+    // Embedded posts and videos from Blog Studio, limited to the hosts below.
+    'iframe',
   ],
   allowedAttributes: {
     a: ['href', 'title', 'target', 'rel'],
     img: ['src', 'alt', 'width', 'height', 'loading'],
     th: ['colspan', 'rowspan', 'scope'],
     td: ['colspan', 'rowspan'],
+    iframe: ['src', 'title', 'height', 'loading', 'allow', 'allowfullscreen'],
+    figure: ['class'],
     '*': ['id'],
   },
+  allowedClasses: { figure: ['embed', 'embed-x', 'embed-instagram', 'embed-video'] },
+  // Only the embed pages of these services may be framed: an X post, an
+  // Instagram post, a YouTube (privacy mode) or Vimeo player.
+  allowedIframeHostnames: ['platform.twitter.com', 'www.instagram.com', 'www.youtube-nocookie.com', 'player.vimeo.com'],
+  allowIframeRelativeUrls: false,
+  allowedSchemesByTag: { iframe: ['https'] },
+  // A frame whose source was refused above is dropped, not left as a blank box.
+  exclusiveFilter: (frame) => frame.tag === 'iframe' && !frame.attribs.src,
   allowedSchemes: ['http', 'https', 'mailto'],
   // Drop pasted colours/fonts/sizes so content inherits the site's styles.
   allowedStyles: {},
