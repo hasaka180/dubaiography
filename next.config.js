@@ -24,6 +24,9 @@ const nextConfig = {
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
       "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://*.r2.cloudflarestorage.com https://*.r2.dev",
+      // Embedded posts and videos in articles (lib/embed.ts); same hosts the
+      // sanitiser allows in lib/html.ts.
+      "frame-src https://platform.twitter.com https://www.instagram.com https://www.youtube-nocookie.com https://player.vimeo.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
