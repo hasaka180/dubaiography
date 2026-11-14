@@ -31,7 +31,10 @@ export default function Reveal() {
           io.unobserve(el)
         })
       },
-      { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
+      // threshold 0: reveal as soon as any of it is on screen. A share of the
+      // element (0.05 before) never arrives for a block taller than ~20
+      // viewports, such as a long article body, which then stayed invisible.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0 },
     )
 
     nodes.forEach((n) => io.observe(n))
