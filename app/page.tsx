@@ -6,7 +6,7 @@ import s from './home.module.css'
 
 // Content is edited live in /studio; re-render hourly so new pieces surface
 // without a redeploy, while keeping pages static and fast for crawlers.
-export const revalidate = 3600
+export const revalidate = 86400
 
 export const metadata = {
   title: 'Dubaiography - An editorial journal of Dubai',

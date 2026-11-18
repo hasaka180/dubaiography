@@ -6,7 +6,7 @@ import EventsShowcase from '@/components/EventsShowcase'
 import { getArticles, isCategory, CATEGORIES, CATEGORY_META } from '@/lib/articles'
 import s from '../pages.module.css'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 /* Section URLs are the top of the SEO funnel - pre-render all four. */
 export function generateStaticParams() {

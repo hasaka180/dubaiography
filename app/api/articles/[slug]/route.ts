@@ -16,13 +16,11 @@ export async function GET(_req: Request, { params }: Ctx) {
 
 export async function DELETE(_req: Request, { params }: Ctx) {
   const { slug } = await params
-  const article = await getArticle(slug)
   const ok = await deleteArticle(slug)
   if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  revalidatePath('/')
-  revalidatePath('/archive')
-  if (article) revalidatePath(`/${article.category}`)
+  // Any page can list it as related, so refresh them all.
+  revalidatePath('/', 'layout')
 
   return NextResponse.json({ ok: true })
 }

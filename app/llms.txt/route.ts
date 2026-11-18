@@ -1,6 +1,6 @@
 import { getArticles, CATEGORIES, CATEGORY_META } from '@/lib/articles'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dubaiography.com'
 
@@ -47,7 +47,7 @@ ${sections}
   return new Response(body, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400',
     },
   })
 }

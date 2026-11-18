@@ -70,12 +70,12 @@ async function writeR2Store(store: Store): Promise<void> {
 }
 
 /* Every page, the sitemap and the API read through this one cache entry, so R2
-   sees about one GET an hour however much traffic - or bot probing of made-up
+   sees about one GET a day however much traffic - or bot probing of made-up
    slugs - the site gets. Saves expire it immediately. A failed read throws out
    of the cached function, so an outage is never cached, only real answers.
    Next won't cache an entry over 2MB (it logs a warning); the site still works
    then, it just reads R2 on every render. */
-const readR2Cached = unstable_cache(readR2Store, ['articles-r2'], { revalidate: 3600, tags: [TAG] })
+const readR2Cached = unstable_cache(readR2Store, ['articles-r2'], { revalidate: 86400, tags: [TAG] })
 
 async function readAll(): Promise<Article[]> {
   if (!useR2) return (await readFileStore()).articles
@@ -83,8 +83,11 @@ async function readAll(): Promise<Article[]> {
     // Nothing saved to R2 yet - serve the bundled issue until the first save writes one.
     return ((await readR2Cached()) ?? (await readFileStore())).articles
   } catch (e) {
-    // R2 unreachable/misconfigured - don't crash the build or the API;
-    // fall back to the bundled seed file so the site stays readable.
+    // R2 unreachable/misconfigured. During the build, fall back to the bundled
+    // seed file so the deploy still succeeds. At runtime pages are cached and
+    // rebuilt in the background, so throw instead: the rebuild fails and the
+    // last good page stays up rather than the seed issue.
+    if (process.env.NEXT_PHASE !== 'phase-production-build') throw e
     console.error('R2 read failed, falling back to data/articles.json:', e)
     return (await readFileStore()).articles
   }

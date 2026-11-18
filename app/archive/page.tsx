@@ -3,7 +3,7 @@ import ArticleGrid from '@/components/ArticleGrid'
 import { getArticles, CATEGORIES, CATEGORY_META } from '@/lib/articles'
 import s from '../pages.module.css'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export const metadata = {
   title: 'Archive - every article',

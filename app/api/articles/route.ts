@@ -5,14 +5,10 @@ import { getArticles, upsertArticle, isCategory, type Article, type Category } f
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-/** Refresh the server-rendered pages a write could have changed. */
-function revalidateContent(article?: Article) {
-  revalidatePath('/')
-  revalidatePath('/archive')
-  if (article) {
-    revalidatePath(`/${article.category}`)
-    revalidatePath(`/articles/${article.slug}`)
-  }
+/** Pages are cached until something changes, and any article can appear in
+    another's related list, so a write refreshes every page. */
+function revalidateContent() {
+  revalidatePath('/', 'layout')
 }
 
 export async function GET(req: Request) {
@@ -43,7 +39,7 @@ export async function POST(req: Request) {
 
   try {
     const saved = await upsertArticle({ blocks: [], ...body } as Article)
-    revalidateContent(saved)
+    revalidateContent()
     return NextResponse.json(saved, { status: 201 })
   } catch (e) {
     console.error('POST /api/articles failed:', e)

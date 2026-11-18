@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import ArticleView from '@/components/ArticleView'
 import { getArticle, getArticles, getRelated, CATEGORY_META } from '@/lib/articles'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dubaiography.com'
 
