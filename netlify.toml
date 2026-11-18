@@ -5,3 +5,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Declared explicitly: Netlify's automatic detection skipped it on this site,
+# which published the raw build output and 404ed every page.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
