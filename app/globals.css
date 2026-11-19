@@ -266,3 +266,11 @@ p {
 .leaflet-control-attribution a {
   color: #b0a99f !important;
 }
+
+/* ── Netlify's injected "Powered by Netlify" badge ──
+   Kept switched on in Netlify's settings but hidden here. Netlify mounts it as
+   an iframe with inline styles, which !important outranks. */
+#nl-badge-frame,
+#nl-hud-frame {
+  display: none !important;
+}
