@@ -13,3 +13,6 @@ tsconfig.tsbuildinfo
 
 # Local Netlify folder
 .netlify
+
+# Secrets for Netlify, filled in locally and imported
+.env.netlify
